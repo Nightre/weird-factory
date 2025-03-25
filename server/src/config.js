@@ -31,5 +31,3 @@ class ProductionConfig extends Config {
 const config = process.env.NODE_ENV === 'production' ? new ProductionConfig() : new Config();
 
 export default config;
-
-/// xi334wo82Xi334wo82
