@@ -1,0 +1,143 @@
+Date : 2025-03-23 11:25:16
+Directory : c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory
+Total : 77 files,  13584 codes, 323 comments, 949 blanks, all 14856 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          9 |      7,391 |          0 |          6 |      7,397 |
+| JavaScript         |         17 |      2,569 |        258 |        355 |      3,182 |
+| Vue                |         14 |      1,465 |         19 |        210 |      1,694 |
+| TypeScript         |         18 |      1,212 |         37 |        206 |      1,455 |
+| Markdown           |          6 |        789 |          0 |        143 |        932 |
+| Python             |          3 |        105 |          9 |         20 |        134 |
+| CSS                |          3 |         23 |          0 |          6 |         29 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| JSON with Comments |          1 |         11 |          0 |          1 |         12 |
+| XML                |          4 |          4 |          0 |          1 |          5 |
+| Properties         |          1 |          2 |          0 |          0 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                       |         77 |     13,584 |        323 |        949 |     14,856 |
+| . (Files)                                                                                                               |          1 |         53 |          0 |          0 |         53 |
+| client                                                                                                                  |         46 |      5,672 |         56 |        429 |      6,157 |
+| client (Files)                                                                                                          |         10 |      2,987 |          3 |         10 |      3,000 |
+| client\public                                                                                                           |          3 |          3 |          0 |          1 |          4 |
+| client\public (Files)                                                                                                   |          1 |          1 |          0 |          0 |          1 |
+| client\public\assets                                                                                                    |          2 |          2 |          0 |          1 |          3 |
+| client\src                                                                                                              |         33 |      2,682 |         53 |        418 |      3,153 |
+| client\src (Files)                                                                                                      |          2 |         48 |          0 |         10 |         58 |
+| client\src\assets                                                                                                       |          3 |         23 |          0 |          6 |         29 |
+| client\src\components                                                                                                   |          9 |      1,011 |         19 |        153 |      1,183 |
+| client\src\components (Files)                                                                                           |          3 |        167 |          5 |         20 |        192 |
+| client\src\components\game                                                                                              |          6 |        844 |         14 |        133 |        991 |
+| client\src\composables                                                                                                  |          3 |        166 |          3 |         28 |        197 |
+| client\src\game                                                                                                         |          1 |        316 |         18 |         65 |        399 |
+| client\src\router                                                                                                       |          1 |         52 |          0 |          5 |         57 |
+| client\src\stores                                                                                                       |          2 |        465 |         12 |         67 |        544 |
+| client\src\utils                                                                                                        |          8 |        171 |          1 |         29 |        201 |
+| client\src\views                                                                                                        |          4 |        430 |          0 |         55 |        485 |
+| server                                                                                                                  |         26 |      7,711 |        258 |        500 |      8,469 |
+| server (Files)                                                                                                          |          2 |      4,261 |          0 |          2 |      4,263 |
+| server\src                                                                                                              |         24 |      3,450 |        258 |        498 |      4,206 |
+| server\src (Files)                                                                                                      |          6 |        467 |          9 |         50 |        526 |
+| server\src\game                                                                                                         |          9 |      1,959 |        109 |        285 |      2,353 |
+| server\src\game (Files)                                                                                                 |          3 |      1,079 |        109 |        142 |      1,330 |
+| server\src\game-data                                                                                                    |          1 |        134 |          0 |          1 |        135 |
+| server\src\game\prompt                                                                                                  |          6 |        880 |          0 |        143 |      1,023 |
+| server\src\public                                                                                                       |          1 |          1 |          0 |          0 |          1 |
+| server\src\public\stylesheets                                                                                           |          1 |          1 |          0 |          0 |          1 |
+| server\src\routes                                                                                                       |          3 |        642 |        135 |        102 |        879 |
+| server\src\scripts                                                                                                      |          1 |         26 |          4 |          6 |         36 |
+| server\src\test                                                                                                         |          3 |        221 |          1 |         54 |        276 |
+| weitiao                                                                                                                 |          4 |        148 |          9 |         20 |        177 |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\.env                                 | Properties         |          2 |          0 |          0 |          2 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\README.md                            | Markdown           |          1 |          0 |          0 |          1 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\env.d.ts                             | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\index.html                           | HTML               |         13 |          0 |          1 |         14 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\package-lock.json                    | JSON               |      2,878 |          0 |          1 |      2,879 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\package.json                         | JSON               |         33 |          0 |          1 |         34 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\public\assets\costume.svg            | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\public\assets\logo.svg               | XML                |          1 |          0 |          1 |          2 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\public\favicon.svg                   | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\App.vue                          | Vue                |         24 |          0 |          2 |         26 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\assets\base.css                  | CSS                |          0 |          0 |          1 |          1 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\assets\favicon.svg               | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\assets\main.css                  | CSS                |         22 |          0 |          5 |         27 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\copyText.vue          | Vue                |         39 |          0 |          4 |         43 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\game\gameContent.vue  | Vue                |        169 |          0 |         29 |        198 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\game\gameInfo.vue     | Vue                |        143 |          0 |         25 |        168 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\game\gameItem.vue     | Vue                |        362 |          5 |         58 |        425 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\game\gameProgress.vue | Vue                |         32 |          0 |          6 |         38 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\game\gameSideInfo.vue | Vue                |         67 |          9 |          7 |         83 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\game\gameSlot.vue     | Vue                |         71 |          0 |          8 |         79 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\joinRoom.vue          | Vue                |         66 |          0 |          8 |         74 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\components\mainGame.vue          | Vue                |         62 |          5 |          8 |         75 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\composables\useDraggable.ts      | TypeScript         |        117 |          3 |         18 |        138 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\composables\useMouseUpdate.ts    | TypeScript         |         17 |          0 |          3 |         20 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\composables\useZoomable.ts       | TypeScript         |         32 |          0 |          7 |         39 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\game\game.ts                     | TypeScript         |        316 |         18 |         65 |        399 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\main.ts                          | TypeScript         |         24 |          0 |          8 |         32 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\router\index.ts                  | TypeScript         |         52 |          0 |          5 |         57 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\stores\game.ts                   | TypeScript         |        426 |         12 |         59 |        497 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\stores\user.ts                   | TypeScript         |         39 |          0 |          8 |         47 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\axios.ts                   | TypeScript         |         60 |          1 |          7 |         68 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\join-room.ts               | TypeScript         |         23 |          0 |          7 |         30 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\min-max-validate.ts        | TypeScript         |         13 |          0 |          2 |         15 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\random.ts                  | TypeScript         |          9 |          0 |          0 |          9 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\required-validate.ts       | TypeScript         |          1 |          0 |          2 |          3 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\server-enum.ts             | TypeScript         |         44 |          0 |          6 |         50 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\str.ts                     | TypeScript         |         15 |          0 |          3 |         18 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\utils\type.ts                    | TypeScript         |          6 |          0 |          2 |          8 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\views\GameView.vue               | Vue                |         90 |          0 |          8 |         98 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\views\HelpView.vue               | Vue                |         28 |          0 |          1 |         29 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\views\HomeView.vue               | Vue                |        201 |          0 |         31 |        232 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\src\views\LoginView.vue              | Vue                |        111 |          0 |         15 |        126 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\tsconfig.app.json                    | JSON               |         11 |          0 |          2 |         13 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\tsconfig.json                        | JSON with Comments |         11 |          0 |          1 |         12 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\tsconfig.node.json                   | JSON               |         20 |          0 |          0 |         20 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\client\vite.config.ts                       | TypeScript         |         18 |          2 |          3 |         23 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\last-gpt.json                               | JSON               |         53 |          0 |          0 |         53 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\package-lock.json                    | JSON               |      4,221 |          0 |          1 |      4,222 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\package.json                         | JSON               |         40 |          0 |          1 |         41 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\app.js                           | JavaScript         |         73 |          0 |         16 |         89 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\config.js                        | JavaScript         |         14 |          1 |          2 |         17 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game-data\game-config.js         | JavaScript         |        134 |          0 |          1 |        135 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\game-logic.js               | JavaScript         |        793 |         61 |         91 |        945 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\gpt-gen.js                  | JavaScript         |        135 |         40 |         26 |        201 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\prompt\base.md              | Markdown           |        539 |          0 |         95 |        634 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\prompt\change-input.md      | Markdown           |         49 |          0 |         17 |         66 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\prompt\evaluate.md          | Markdown           |         10 |          0 |          0 |         10 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\prompt\machine.md           | Markdown           |        184 |          0 |         31 |        215 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\prompt\synthesis.md         | Markdown           |          6 |          0 |          0 |          6 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\prompt\test.json            | JSON               |         92 |          0 |          0 |         92 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\game\room-manager.js             | JavaScript         |        151 |          8 |         25 |        184 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\gpt-config.js                    | JavaScript         |         13 |          0 |          0 |         13 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\mid.js                           | JavaScript         |         16 |          0 |          2 |         18 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\model.js                         | JavaScript         |        287 |          8 |         21 |        316 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\public\stylesheets\style.css     | CSS                |          1 |          0 |          0 |          1 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\routes\game.js                   | JavaScript         |        474 |        122 |         64 |        660 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\routes\index.js                  | JavaScript         |          6 |          0 |          4 |         10 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\routes\users.js                  | JavaScript         |        162 |         13 |         34 |        209 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\scripts\init-db.js               | JavaScript         |         26 |          4 |          6 |         36 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\test\mgame.test.js               | JavaScript         |         85 |          1 |         25 |        111 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\test\test.js                     | JavaScript         |         14 |          0 |          3 |         17 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\test\user.test.js                | JavaScript         |        122 |          0 |         26 |        148 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\server\src\uitls.js                         | JavaScript         |         64 |          0 |          9 |         73 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\weitiao\main.py                             | Python             |         70 |          4 |         14 |         88 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\weitiao\model.json                          | JSON               |         43 |          0 |          0 |         43 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\weitiao\test.py                             | Python             |         29 |          5 |          4 |         38 |
+| c:\Users\nightscratch\Desktop\cat_ingredients\cat_ingredients\weird-factory\weitiao\testi.py                            | Python             |          6 |          0 |          2 |          8 |
+| Total                                                                                                                   |                    |     13,584 |        323 |        949 |     14,856 |
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

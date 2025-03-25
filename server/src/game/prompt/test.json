@@ -1,0 +1,92 @@
+{
+    "create": [
+        {
+            "name": "丁丁[路人]",
+            "id": 2,
+            "baseInputs": {},
+            "attributes": {
+                "心情": "开心",
+                "职业": "侦探",
+                "好感度": "一般"
+            },
+            "actions": {
+                "聊天": {},
+                "送礼": {
+                    "礼物": {
+                        "type": "INPUT_TYPE.NORMAL"
+                    }
+                },
+                "要求回礼": {}
+            },
+            "inputs": {
+                "礼物": {
+                    "item": null
+                }
+            },
+            "emoji": "🕵️",
+            "reason": "你好，我是丁丁，很高兴认识你。",
+            "info": "一名侦探，或许能提供一些线索。"
+        },
+        {
+            "name": "菜菜[路人]",
+            "id": 3,
+            "baseInputs": {},
+            "attributes": {
+                "心情": "平静",
+                "职业": "农民",
+                "好感度": "一般"
+            },
+            "actions": {
+                "聊天": {},
+                "送礼": {
+                    "礼物": {
+                        "type": "INPUT_TYPE.NORMAL"
+                    }
+                },
+                "要求回礼": {}
+            },
+            "inputs": {
+                "礼物": {
+                    "item": null
+                }
+            },
+            "emoji": "🧑‍🌾",
+            "reason": "今天天气不错，是个种田的好日子。",
+            "info": "一名农民，可能知道一些农业相关的信息。"
+        }
+    ],
+    "change": {},
+    "changeSelf": {
+        "name": "丁真大都市[地区]",
+        "id": 0,
+        "attributess": {
+            "繁荣程度": "顶级城市",
+            "求职难度": "极高",
+            "市长": "丁真"
+        },
+        "actions": {
+            "观察一下": {}
+        },
+        "baseInputs": {
+            "路人1": {
+                "type": "INPUT_TYPE.PRIVATE"
+            },
+            "路人2": {
+                "type": "INPUT_TYPE.PRIVATE"
+            }
+        },
+        "inputs": {
+            "路人1": {
+                "item": 2
+            },
+            "路人2": {
+                "item": 3
+            }
+        },
+        "emoji": "🏙️",
+        "reason": "欢迎来到丁真大都市，这里充满了机遇与挑战。",
+        "info": "一座繁华的都市，拥有各种设施和居民。"
+    },
+    "delete": [],
+    "description": "玩家asdID_1观察了丁真大都市[地区"
+}

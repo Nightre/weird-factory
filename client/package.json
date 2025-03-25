@@ -1,0 +1,47 @@
+{
+  "name": "client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:web": "vite --mode web",
+    "dev:mobile": "vite --mode mobile",
+
+    "build:mobile": "vite build --mode mobile && npx cap sync && npx cap build android",
+    "build:mobile:dev": "vite build --mode mobile && npx cap sync && npx cap run android",
+
+    "build:web": " vite build --mode web",
+
+    "preview": "vite preview",    
+    "type-check": "vue-tsc --build"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.1.0",
+    "@capacitor/core": "^7.1.0",
+    "@capacitor/preferences": "^7.0.0",
+    "@capacitor/screen-orientation": "^7.0.0",
+    "@capacitor/splash-screen": "^7.0.0",
+    "@capacitor/status-bar": "^7.0.0",
+    "animate.css": "^4.1.1",
+    "axios": "^1.8.1",
+    "fast-json-patch": "^3.1.1",
+    "pinia": "^3.0.1",
+    "socket.io-client": "^4.8.1",
+    "vue": "^3.5.13",
+    "vue-draggable-plus": "^0.6.0",
+    "vue-router": "^4.5.0",
+    "vuestic-ui": "^1.10.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.1.0",
+    "@tsconfig/node22": "^22.0.0",
+    "@types/node": "^22.13.4",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0",
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vue-tsc": "^2.2.2"
+  }
+}

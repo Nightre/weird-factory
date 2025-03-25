@@ -1,0 +1,24 @@
+{
+  "appId": "com.nightscratch.wonderfactory",
+  "appName": "奇想工厂",
+  "webDir": "./dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  },
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "android": {
+    "buildOptions": {
+      "keystorePath": "release.keystore",
+      "keystorePassword": "nightscratch",
+      "keystoreAlias": "wd-alias",
+      "keystoreAliasPassword": "nightscratch",
+      "releaseType": "APK",
+      "signingType": "apksigner"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+# TODO: 创建 IItem 的时候搞一个中间件，初始化本地属性，比如fold，el，inputEl
