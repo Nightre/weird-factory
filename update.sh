@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /var/www/weird-factory
 git reset --hard HEAD
 git pull origin main
 cd server
