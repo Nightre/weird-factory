@@ -5,8 +5,13 @@ import path from 'path';
 import { CONFIG } from "../gpt-config.js";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 
-// 加载提示词文本
-const promptPath = './src/game/prompt';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const promptPath = path.join(__dirname, 'prompt');
 const PROMPT_TEXTS = {
     machine: fs.readFileSync(path.join(promptPath, 'machine.md'), 'utf8'),
     synthesis: fs.readFileSync(path.join(promptPath, 'synthesis.md'), 'utf8'),
