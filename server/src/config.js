@@ -3,20 +3,6 @@
 
 class Config {
   db = 'mongodb://localhost:27017/weird-factory';
-  jwtSecret = 'your-secret-key';
-  sessionSecret = 'your-session-secret-key';
-  emailUser = 'your-email-user';
-  emailPass = 'your-email-pass';
-  emailService = 'gmail';
-  host = 'http://localhost:3000';
-  sessionMaxAge = '2y';
-  env = 'development';
-  sendEmail = false;
-  gameVersion = '1.0.1';
-}
-
-class ProductionConfig extends Config {
-  db = 'mongodb://localhost:27017/weird-factory';
   jwtSecret = 'NL@*&$)@&0UQhauosy*YR*YOHjlabflsb';
   sessionSecret = 'NL@*&$)@&0UQhauosy*YR*YOHjlabflsb';
   emailUser = '';
@@ -24,8 +10,21 @@ class ProductionConfig extends Config {
   emailService = 'gmail';
   host = 'http://localhost:3000';
   sessionMaxAge = '2y';
+  env = 'development';
+  sendEmail = false;
+  gameVersion = '1.0.1';
+  port = 3000;
+}
+
+class ProductionConfig extends Config {
+  emailUser = '';
+  emailPass = '';
+  emailService = 'gmail';
+  host = 'http://43.133.1.198:3000';
+  sessionMaxAge = '2y';
   env = 'production';
   sendEmail = false;
+  port = 80;
 }
 
 const config = process.env.NODE_ENV === 'production' ? new ProductionConfig() : new Config();

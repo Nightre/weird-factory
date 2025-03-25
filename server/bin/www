@@ -8,11 +8,12 @@ import app from '../src/app.js';
 import debug from 'debug';
 import { createServer } from 'http';
 import { startSocketServer } from '../src/routes/game.js';
+import config from '../src/config.js';
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || config.port);
 app.set('port', port);
 
 /**
