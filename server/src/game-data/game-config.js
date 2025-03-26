@@ -8,21 +8,11 @@ const itemSchema = {
         emoji: { type: "string" },
         actions: {
             type: "object",
+            additionalProperties: true
         },
         attributes: {
             type: "object",
-        },
-        baseInputs: {
-            type: "object",
-        },
-        script: {
-            type: "string",
-        },
-        owner: {
-            type: "array",
-            items: {
-                type: "string",
-            }
+            additionalProperties: true
         },
         reason: {
             type: "string",
@@ -31,7 +21,7 @@ const itemSchema = {
             type: "string",
         },
     },
-    required: ["name", "price", "num", "emoji"]
+    required: ["name", "emoji"]
 }
 
 export const gameConfigSchema = {
@@ -66,8 +56,6 @@ export const GAME_CONFIG = {
     "init_items": [
         {
             "name": "水",
-            "price": 10,
-            "num": 12,
             "emoji": "💧",
             "reason":"非常棒的水",
             "info": "告诉AI这个物品有无其他特殊的规则，无法从名字得出的规则"

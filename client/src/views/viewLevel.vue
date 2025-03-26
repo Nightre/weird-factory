@@ -1,19 +1,20 @@
 <template>
     <JoinRoomModel :level="level" v-model:show="isShowRoomModel" />
-    <div class="level-detail">
-        <VaButton icon-right="arrow_forward" icon-color="#ffffff50" style="position: absolute;top: 0.5rem;left: 0.5rem;"
-            to="/home">
-            返回主页
-        </VaButton>
-        <h1 class="title">{{ level.title }}</h1>
-        <p>作者：{{ level.author?.name }}</p>
-        <VaDivider />
-
-        <div class="content">
-            {{ level.content }}
+    <div class="card panel">
+        <div class="card-header">
+            <div class="flex-between">
+                <h1>{{ level.title }} <span style="color: #888;font-size: 0.8rem;">作者：{{ level.author?.name }}</span></h1>
+                <BackBtn />
+            </div>
         </div>
 
-        <div class="actions">
+
+        <div class="card-body" style="flex: 1;overflow-y: auto;" v-if="!isLoading">
+            
+            <JsonEditorVue :model-value="level.content" read-only />
+        </div>
+
+        <div class="card-footer">
             <VaButton preset="secondary" border-color="primary" :loading="isLikeLoading" :disabled="isLikeLoading"
                 @click="handleLike">
                 <VaIcon name="favorite" :color="level.isLiked ? '#ff5252' : '#888'" />
@@ -33,7 +34,7 @@ import { axios } from "../utils/axios";
 import type { ILevelData } from '@/stores/game';
 import JoinRoomModel from '@/components/joinRoom.vue';
 import BackBtn from '@/components/backBtn.vue';
-
+import JsonEditorVue from 'json-editor-vue'
 const route = useRoute();
 
 const isShowRoomModel = ref(false)

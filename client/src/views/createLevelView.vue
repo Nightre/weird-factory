@@ -1,21 +1,26 @@
 <template>
-    <VaForm ref="formRef" class="form">
-        <div class="flex">
-            <BackBtn />
-            <h1 class="title">创建关卡</h1>
+    <div class="card panel">
+        <div class="card-header">
+            <div class="flex-between">
+                <h1 class="title">创建关卡</h1>
+                <BackBtn />
+            </div>
         </div>
-        <VaDivider />
+        <div class="card-body" style="overflow-y: auto;">
+            <VaForm ref="formRef" class="form">
+                <VaInput v-model="formData.title" :rules="[
+                    requiredValidate('请输入标题'),
+                    minMaxValidate('标题', 2, 50)
+                ]" label="标题" placeholder="请输入标题" :disabled="isLoading" />
+                <p style="color: #888;font-size: 0.8rem;">游戏内容</p>
+                <JsonEditorVue v-model="formData.content" />
+                <VaButton :loading="isLoading" :disabled="isLoading" @click="validate() && submit()">
+                    创建
+                </VaButton>
+            </VaForm>
+        </div>
+    </div>
 
-        <VaInput v-model="formData.title" :rules="[
-            requiredValidate('请输入标题'),
-            minMaxValidate('标题', 2, 50)
-        ]" label="标题" placeholder="请输入标题" :disabled="isLoading" />
-        <p style="color: #888;font-size: 0.8rem;">游戏内容</p>
-        <JsonEditorVue v-model="formData.content" />
-        <VaButton :loading="isLoading" :disabled="isLoading" @click="validate() && submit()">
-            创建
-        </VaButton>
-    </VaForm>
 </template>
 
 <style scoped>
@@ -26,7 +31,6 @@
 .form {
     gap: 0.7rem;
     background-color: #fff;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
 }
@@ -41,7 +45,7 @@ import minMaxValidate from '@/utils/min-max-validate';
 import requiredValidate from '@/utils/required-validate';
 import JsonEditorVue from 'json-editor-vue'
 import initJSON from '@/assets/init.json'
-
+import BackBtn from '@/components/backBtn.vue';
 const router = useRouter();
 const { validate } = useForm('formRef');
 const isLoading = ref(false);

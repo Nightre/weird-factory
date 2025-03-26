@@ -48,25 +48,25 @@ const router = createRouter({
       path: '/createLevel',
       name: 'createLevel',
       component: CreateLevelView,
-      meta: { orientation: 'portrait' }
+      meta: { orientation: 'landscape' }
     },
     {
       path: '/level/:id',
       name: 'viewLevel',
       component: ViewLevelView,
-      meta: { orientation: 'portrait' }
+      meta: { orientation: 'landscape' }
     },
     {
       path: '/myLevels',
       name: 'myLevels',
       component: MyLevelsView,
-      meta: { orientation: 'portrait' }
+      meta: { orientation: 'landscape' }
     },
     {
       path: '/searchLevels',
       name: 'searchLevels',
       component: SearchLevelsView,
-      meta: { orientation: 'portrait' }
+      meta: { orientation: 'landscape' }
     },
   ],
 })

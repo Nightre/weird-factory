@@ -22,9 +22,10 @@ router.post('/create', requireAuth, async (req, res) => {
         return returnError(res, '标题和内容不能为空');
     }
     try {
-        const contentJson = content
+        const contentJson = JSON.parse(content)
         const ajv = new Ajv()
         const valid = ajv.validate(gameConfigSchema, contentJson)
+
         if (!valid) {
             return returnError(res, '内容格式错误: \n' + ajv.errors[0].message);
         }
@@ -98,7 +99,6 @@ router.get('/my-levels', requireAuth, async (req, res) => {
     const { page = 1, limit = 20 } = req.query;
 
     const query = { author: res.locals.user._id };
-    console.log(query)
     const levels = await Level.find(query)
         .sort({ created_at: -1 })
         .skip((page - 1) * limit)

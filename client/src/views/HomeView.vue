@@ -233,9 +233,5 @@ onMounted(() => {
   flex: 1;
 }
 
-.card-footer {
-  padding: 0.5rem;
-  background-color: #f5f5f5;
-  color: #888;
-}
+
 </style>
