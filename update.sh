@@ -13,4 +13,4 @@ yarn
 pm2 restart w --env production
 cd ..
 chmod +x /var/www/weird-factory/update.sh
-pm2 start /var/www/weird-factory/server/bin/www --name wf --env production
+pm2 restart w
