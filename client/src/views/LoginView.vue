@@ -1,7 +1,7 @@
 <template>
   <VaCard outlined class="box">
     <VaCardContent>
-      <VaForm ref="formRef" class="flex flex-col form">
+      <VaForm ref="formRef" class="flex-col form">
         <h1 class="title">
           {{ text[tabValue] }}账户
         </h1>

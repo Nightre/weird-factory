@@ -1,6 +1,9 @@
 <template>
     <VaForm ref="formRef" class="form">
-        <h1 class="title">创建关卡</h1>
+        <div class="flex">
+            <BackBtn />
+            <h1 class="title">创建关卡</h1>
+        </div>
         <VaDivider />
 
         <VaInput v-model="formData.title" :rules="[

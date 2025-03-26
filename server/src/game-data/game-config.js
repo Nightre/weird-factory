@@ -31,7 +31,7 @@ const itemSchema = {
             type: "string",
         },
     },
-    required: ["item", "price", "num", "emoji"]
+    required: ["name", "price", "num", "emoji"]
 }
 
 export const gameConfigSchema = {

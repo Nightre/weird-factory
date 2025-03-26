@@ -10,7 +10,7 @@ cd server
 yarn
 cd ../client
 yarn
-pm2 restart w --env production
 cd ..
 chmod +x /var/www/weird-factory/update.sh
 pm2 restart w
+# pm2 start /var/www/weird-factory/ecosystem.config.js

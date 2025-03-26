@@ -120,7 +120,7 @@ onMounted(() => {
         <h1>
           <VaIcon name="person" /> 用户
         </h1>
-        <VaButton color="secondary" size="small" @click="onLogoutClick">
+        <VaButton color="secondary" size="small" @click="onLogoutClick" preset="secondary">
           登出
         </VaButton>
       </div>
@@ -136,7 +136,7 @@ onMounted(() => {
         <h1>
           <VaIcon name="extension" /> 关卡公园
         </h1>
-        <VaButton color="secondary" size="small" to="/searchLevels">
+        <VaButton color="secondary" size="small" to="/searchLevels" preset="secondary">
           更多
         </VaButton>
       </div>

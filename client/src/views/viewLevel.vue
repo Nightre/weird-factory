@@ -32,6 +32,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { axios } from "../utils/axios";
 import type { ILevelData } from '@/stores/game';
 import JoinRoomModel from '@/components/joinRoom.vue';
+import BackBtn from '@/components/backBtn.vue';
+
 const route = useRoute();
 
 const isShowRoomModel = ref(false)

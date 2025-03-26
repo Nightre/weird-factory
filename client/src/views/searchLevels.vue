@@ -2,18 +2,18 @@
     <div class="card panel">
         <div class="card-header flex-between">
             <div class="flex">
+                <BackBtn />
                 <h1>搜索关卡</h1>
-                <div class="search-box">
-                    <VaInput v-model="searchQuery" placeholder="输入关卡名称搜索" clearable @update:modelValue="handleSearch">
-                        <template #appendInner>
-                            <VaButton icon="search" preset="plain" @click="handleSearch" />
-                        </template>
-                    </VaInput>
-                </div>
             </div>
-            <VaButton to="/myLevels">我的关卡</VaButton>
+            <VaButton to="/myLevels" preset="secondary" size="small">我的关卡</VaButton>
         </div>
-
+        <div class="search-box">
+            <VaInput v-model="searchQuery" placeholder="输入关卡名称搜索" clearable @update:modelValue="handleSearch">
+                <template #appendInner>
+                    <VaButton icon="search" preset="plain" @click="handleSearch" />
+                </template>
+            </VaInput>
+        </div>
 
         <div class="card-body" style="flex: 1;overflow-y: auto;" v-if="!isLoading">
             <ListShow :data="levels.data">
@@ -24,10 +24,6 @@
             <div class="pagination" v-if="levels.total > 0">
                 <VaPagination v-model="page" :pages="Math.ceil(levels.total / pageSize)"
                     @update:modelValue="fetchLevels" />
-            </div>
-            <div class="loading-state" v-else>
-                <va-progress-circle indeterminate />
-                <p>加载中...</p>
             </div>
         </div>
 
@@ -40,7 +36,7 @@ import { axios } from "@/utils/axios";
 import type { IPaggin, ILevelData } from '@/stores/game';
 import ListShow from '@/components/listShwo.vue';
 import LevelCard from '@/components/levelCard.vue';
-
+import BackBtn from '@/components/backBtn.vue';
 const isLoading = ref(true);
 const page = ref(1);
 const pageSize = 5;
@@ -82,6 +78,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.search-box {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
 .search-levels-container {
     padding: 1rem;
     background-color: #fff;

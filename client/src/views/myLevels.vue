@@ -1,9 +1,12 @@
 <template>
     <div class="panel card">
         <div class="card-header flex-between">
-            <h1>我的关卡</h1>
+            <div class="flex">
+                <BackBtn />
+                <h1>我的关卡</h1>
+            </div>
             <div class="actions">
-                <VaButton color="primary" to="/createLevel">
+                <VaButton color="primary" to="/createLevel" size="small" preset="secondary">
                     创建新关卡
                 </VaButton>
             </div>
@@ -22,10 +25,6 @@
                     <VaPagination v-model="page" :pages="Math.ceil(levels.total / pageSize)"
                         @update:modelValue="fetchLevels" />
                 </div>
-                <div class="loading-state" v-else>
-                    <va-progress-circle indeterminate />
-                    <p>加载中...</p>
-                </div>
             </div>
 
         </div>
@@ -39,6 +38,7 @@ import { useModal } from 'vuestic-ui';
 import type { IPaggin, ILevelData } from '@/stores/game';
 import ListShow from '@/components/listShwo.vue';
 import LevelCard from '@/components/levelCard.vue';
+import BackBtn from '@/components/backBtn.vue';
 
 const { confirm } = useModal();
 

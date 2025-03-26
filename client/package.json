@@ -11,7 +11,8 @@
     "build:mobile:dev": "vite build --mode mobile && npx cap sync && npx cap run android",
     "build:web": " vite build --mode web",
     "preview": "vite preview",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+    "copy": "copy ./android/app/build/outputs/apk/release/app-release-signed.apk ../server/src/public/main.apk"
   },
   "dependencies": {
     "@capacitor/android": "^7.1.0",
