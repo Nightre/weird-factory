@@ -12,7 +12,7 @@ class Config {
   sessionMaxAge = '2y';
   env = 'development';
   sendEmail = false;
-  gameVersion = '1.0.2';
+  gameVersion = '1.0.3';
   port = 3000;
 }
 
