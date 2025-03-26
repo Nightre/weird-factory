@@ -590,17 +590,11 @@ export class GameLogic extends EventEmitter {
         //     position_y: (item1.position_y + item2.position_y)/2 
         // }) }
     }
-    async actionMachine(itemId, action, playerItem, ban, submitData, firstCreater) {
+    async actionMachine(itemId, action, playerItem, ban, firstCreater) {
         const item = this.getItemById(itemId);
         if (!item) return { error: "物品不存在" };
 
-        let result
-        if (item.type === ITEM_TYPE.SUBMIT) {
-            result = await this.handleSubmitType(item, ban, submitData);
-        } else {
-            result = await this.handleMachineType(item, action, playerItem, firstCreater);
-        }
-        return result
+        return await this.handleMachineType(item, action, playerItem, firstCreater);
     }
 
     async handleMachineType(item, action, playerItem, firstCreater) {
@@ -619,34 +613,35 @@ export class GameLogic extends EventEmitter {
         }
         ids = await this.applyFromJSON(item, ids, aiResult, firstCreater)
         addGptContext(this.gptContext, aiResult.description, ids)
-        return { isSubmit: false };
+        return {};
     }
-    async handleSubmitType(item, ban, submitData) {
-        const child = item.getInput("卖物");
-        if (!child) return { isSubmit: true, error: "请提供商品才能出售" };
 
-        const childName = child.showText;
-        if (ban.includes(childName)) return { isSubmit: true, error: "该物品已卖过。" };
+    // async handleSubmitType(item, ban, submitData) {
+    //     const child = item.getInput("卖物");
+    //     if (!child) return { isSubmit: true, error: "请提供商品才能出售" };
 
-        let aiResult;
+    //     const childName = child.showText;
+    //     if (ban.includes(childName)) return { isSubmit: true, error: "该物品已卖过。" };
 
-        try {
-            aiResult = await evaluateItemValue(
-                JSON.stringify(child.toString()),
-                submitData[item.showText],
-                this.gptContext
-            );
-        } catch (error) {
-            if (error instanceof SyntaxError) {
-                return { error: AI_GEN_ERROR };
-            }
-            return { error: TOO_MANY_REQ_MSG };
-        }
+    //     let aiResult;
 
-        const { price, reason } = aiResult;
-        item.removeAllChildren();
-        return { isSubmit: true, price, reason, name: childName };
-    }
+    //     try {
+    //         aiResult = await evaluateItemValue(
+    //             JSON.stringify(child.toString()),
+    //             submitData[item.showText],
+    //             this.gptContext
+    //         );
+    //     } catch (error) {
+    //         if (error instanceof SyntaxError) {
+    //             return { error: AI_GEN_ERROR };
+    //         }
+    //         return { error: TOO_MANY_REQ_MSG };
+    //     }
+
+    //     const { price, reason } = aiResult;
+    //     item.removeAllChildren();
+    //     return { isSubmit: true, price, reason, name: childName };
+    // }
     async createActionByAI(item, newAction) {
         for (const actionName in newAction) {
             if (!(actionName in item.actions)) {
@@ -676,6 +671,7 @@ export class GameLogic extends EventEmitter {
             script: createData.script,
             isLocked: createData.isLocked,
             privateActions: createData.privateActions,
+            owner: createData.owner,
             ...otherData
         }, firstCreater)
     }
@@ -700,7 +696,7 @@ export class GameLogic extends EventEmitter {
         if (typeof data.action !== "undefined") item.updateInputFormAction()
         if (typeof data.privateActions != "undefined") item.privateActions = data.privateActions
         if (typeof data.isLocked !== "undefined") item.setLock(data.isLocked)
-
+        if (typeof data.owner != "undefined") item.owner = data.owner
 
         return item
     }

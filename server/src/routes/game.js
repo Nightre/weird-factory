@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import roomManager, { Room } from '../game/room-manager.js';
 import { Server, Socket } from 'socket.io';
 import config from '../config.js';
-import { ATTRIBUTES, ITEM_TYPE, LOCK_TYPE, MARKET_TYPE, TEAM, User } from '../model.js';
+import { ATTRIBUTES, ITEM_TYPE, Level, LOCK_TYPE, MARKET_TYPE, TEAM, User } from '../model.js';
 import { GameLogic, InventoryItem } from '../game/game-logic.js';
 import { getRandomItem, getUserById, randomItem, returnSuccess, toDict, toInputs } from '../uitls.js';
 import { GAME_CONFIG } from '../game-data/game-config.js';
@@ -16,16 +16,15 @@ router.get("/room_list", (req, res) => {
 
 class GameRoom extends Room {
 
-    static SUPRISE_TIME = 1000 * 60 * 10
     static RECEIVING_TIME = 1000 * 60 * 5
     static ONE_SECOND_TIME = 1000
     static APPLY_TIME = 1000 * 6
     static APPLY_TRANS_TIME = 1000 * 1
 
     constructor(roomId, options) {
+        //if (!options.config) options.config = GAME_CONFIG
         super(roomId, options)
         this.public = options.public || false
-
         this.game = new GameLogic([], undefined, {
             updateItemsState: this.updateItemsState.bind(this),
             getMainUser: this.getMainUser.bind(this),
@@ -58,9 +57,9 @@ class GameRoom extends Room {
             this.receiving()
         }, GameRoom.RECEIVING_TIME)
 
-        setInterval(() => {
-            this.suprise()
-        }, GameRoom.SUPRISE_TIME);
+        // setInterval(() => {
+        //     this.suprise()
+        // }, GameRoom.SUPRISE_TIME);
 
         // setInterval(() => {
         //     const change = Number(this.game.moneyChangeEmit()) || 0
@@ -78,84 +77,91 @@ class GameRoom extends Room {
     receiving() {
         this.options.onReceiving()
 
-        this.state.market = GAME_CONFIG.MARKET_DATA
+        this.state.market = this.gameConfig.market_data
     }
-    async suprise() {
-        for (let index = 0; index < 5; index++) {
-            await this.game.addItemFromJson(randomItem(GAME_CONFIG.SUPRISE))
-        }
-        await this.updateItemsState()
-        this.options.onSuprise()
-    }
+    // async suprise() {
+    //     for (let index = 0; index < 5; index++) {
+    //         await this.game.addItemFromJson(randomItem(GAME_CONFIG.SUPRISE))
+    //     }
+    //     await this.updateItemsState()
+    //     this.options.onSuprise()
+    // }
     initState(state) {
         super.initState(state)
-        this.state.market = GAME_CONFIG.MARKET_DATA
+        this.state.market = this.gameConfig.market_data
         this.state.saled = {}
         this.state.msg = []
         this.state.public = this.public
     }
     async init(createrId) {
-        const pos = (i, y = 0) => { return { position_x: i * 110, position_y: y * 150 } }
-        //await this.game.addItem("冲锋枪", "🔫")
 
-        await this.game.addItemFromJson({
-            ...pos(0, 1),
-            className: "手枪",
-            emoji: "🔫",
-            actions: {
-                "攻击": {
-                    "攻击目标": { type: INPUT_TYPE.ALLOW_REFERENCE }
-                }
-            },
-            inputs: { "攻击目标": InventoryItem.createInputData({ type: INPUT_TYPE.ALLOW_REFERENCE }) },
-        }, createrId)
-        await this.game.addItemFromJson({
-            ...pos(0, 0),
-            className: "坏蛋",
-            emoji: "😈",
-            actions: { "求饶": { "求饶金": INPUT_TYPE.NORMAL } },
-            script: `current.mainTick = (data)=>{
-            }`
-        }, createrId)
-        await this.game.addItemFromJson({
-            ...pos(0, 0),
-            className: "植物",
-            emoji: "🌿",
-            attributes: { "水分": 0 },
-        }, createrId)
-        await this.game.addItemFromJson({
-            ...pos(0, 0),
-            className: "植物",
-            emoji: "🌿",
-            attributes: { "水分": 0 },
-        }, createrId)
-        await this.game.addItemFromJson({
-            ...pos(0, 0),
-            className: "植物",
-            emoji: "🌿",
-            attributes: { "水分": 0 },
-        }, createrId)
-        await this.game.addItemFromJson({
-            ...pos(0, 0),
-            className: "洒水器",
-            emoji: "💦",
-            script: `current.mainTick = (data)=>{
-                current.findItems().forEach(item=>{
-                    if (item.name.includes("植物")) {
-                        current.applyChange({
-                            change: {
-                                [item.id]: {
-                                    attributes: {
-                                        "水分": item.attributes["水分"] + 1
-                                    },
-                                    actionEmoji: "💦"
-                                }
-                            }
-                        })
-                    }
-                })
-            }`
-        }, createrId)
+        if (this.gameConfig.init_items) {
+            for (const item of this.gameConfig.init_items) {
+                await this.game.createFromJSON(item, createrId)
+            }
+        }
+
+        // const pos = (i, y = 0) => { return { position_x: i * 110, position_y: y * 150 } }
+        // //await this.game.addItem("冲锋枪", "🔫")
+
+        // await this.game.addItemFromJson({
+        //     ...pos(0, 1),
+        //     className: "手枪",
+        //     emoji: "🔫",
+        //     actions: {
+        //         "攻击": {
+        //             "攻击目标": { type: INPUT_TYPE.ALLOW_REFERENCE }
+        //         }
+        //     },
+        //     inputs: { "攻击目标": InventoryItem.createInputData({ type: INPUT_TYPE.ALLOW_REFERENCE }) },
+        // }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(0, 0),
+        //     className: "坏蛋",
+        //     emoji: "😈",
+        //     actions: { "求饶": { "求饶金": INPUT_TYPE.NORMAL } },
+        //     script: `current.mainTick = (data)=>{
+        //     }`
+        // }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(0, 0),
+        //     className: "植物",
+        //     emoji: "🌿",
+        //     attributes: { "水分": 0 },
+        // }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(0, 0),
+        //     className: "植物",
+        //     emoji: "🌿",
+        //     attributes: { "水分": 0 },
+        // }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(0, 0),
+        //     className: "植物",
+        //     emoji: "🌿",
+        //     attributes: { "水分": 0 },
+        // }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(0, 0),
+        //     className: "洒水器",
+        //     emoji: "💦",
+        //     script: `current.mainTick = (data)=>{
+        //         current.findItems().forEach(item=>{
+        //             if (item.name.includes("植物")) {
+        //                 current.applyChange({
+        //                     change: {
+        //                         [item.id]: {
+        //                             attributes: {
+        //                                 "水分": item.attributes["水分"] + 1
+        //                             },
+        //                             actionEmoji: "💦"
+        //                         }
+        //                     }
+        //                 })
+        //             }
+        //         })
+        //     }`
+        // }, createrId)
 
         // await this.game.addItemFromJson({
         //     ...pos(-1),
@@ -167,16 +173,16 @@ class GameRoom extends Room {
         //     actions: { "卖掉": 0 }
         // })
 
-        await this.game.addItemFromJson({
-            ...pos(1),
-            className: "低价收购",
-            fold: false,
-            emoji: "💰", // 低价收购用钱袋
-            type: ITEM_TYPE.SUBMIT,
-            info: "买东西",
-            actions: { "卖掉": { "卖物": INPUT_TYPE.NORMAL }, "申请破除": { "卖物": INPUT_TYPE.NORMAL } },
-            privateActions: ["申请破除"],
-        }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(1),
+        //     className: "低价收购",
+        //     fold: false,
+        //     emoji: "💰", // 低价收购用钱袋
+        //     type: ITEM_TYPE.SUBMIT,
+        //     info: "买东西",
+        //     actions: { "卖掉": { "卖物": INPUT_TYPE.NORMAL }, "申请破除": { "卖物": INPUT_TYPE.NORMAL } },
+        //     privateActions: ["申请破除"],
+        // }, createrId)
 
         // await this.game.addItemFromJson({
         //     ...pos(3),
@@ -236,28 +242,28 @@ class GameRoom extends Room {
         //     attributes: {},
         //     info: "探索的话就创建一个新的 地区，可以是 xx城市，比如生成一个深圳市，或者一个奇怪的地方，比如 卢本伟广场"
         // })
-        await this.game.addItemFromJson({
-            ...pos(3),
-            className: `增加湿机`,
-            fold: false,
-            emoji: "🏙️", // 大都市用城市天际线
-            actions: { "增湿": { "物品": INPUT_TYPE.NORMAL } },
-            attributes: {},
-        }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(3),
+        //     className: `增加湿机`,
+        //     fold: false,
+        //     emoji: "🏙️", // 大都市用城市天际线
+        //     actions: { "增湿": { "物品": INPUT_TYPE.NORMAL } },
+        //     attributes: {},
+        // }, createrId)
 
-        await this.game.addItemFromJson({
-            ...pos(13),
-            className: `丁真大都市[地区]`,
-            fold: false,
-            emoji: "🏙️", // 大都市用城市天际线
-            actions: { "观察一下": {} },
-            attributes: {
-                "繁荣程度": "顶级城市",
-                "求职难度": "极高",
-                "市长": "丁真",
-            },
-            owner: [TEAM.AI],
-        }, createrId)
+        // await this.game.addItemFromJson({
+        //     ...pos(13),
+        //     className: `丁真大都市[地区]`,
+        //     fold: false,
+        //     emoji: "🏙️", // 大都市用城市天际线
+        //     actions: { "观察一下": {} },
+        //     attributes: {
+        //         "繁荣程度": "顶级城市",
+        //         "求职难度": "极高",
+        //         "市长": "丁真",
+        //     },
+        //     owner: [TEAM.AI],
+        // }, createrId)
         this.state.items = this.game.toJson().items
     }
     async updateItemsState() {
@@ -272,7 +278,7 @@ class GameRoom extends Room {
     }
     getUserPublicInitState(user, client) {
         return {
-            x: 0, y: 0, money: GAME_CONFIG.INIT_MONEY, name: user.name, playerItem: null, team: client.team
+            x: 0, y: 0, money: this.gameConfig.init_money, name: user.name, playerItem: null, team: client.team
         }
     }
     async mouseMove(data, userId) {
@@ -307,28 +313,27 @@ class GameRoom extends Room {
             data.action,
             client.wareroom,
             Object.keys(this.state.saled),
-            GAME_CONFIG.SUBMIT_DATA,
             userId
         )
 
         this.game.endLoading(data.id)
-        const item = result.item
-        if (result.error) {
-            await this.updateItemsState()
-            return result
-        }
 
-        if (result && result.price) {
-            this.addPlayerMoney(userId, result.price)
-            if (result.price > this.maxHighestPrise) {
-                this.maxHighestPrise = result.price
-                this.options.newHighestPrise(userId, result.price, result.name)
-            }
-            this.state.saled[result.name] = {
-                prise: result.price,
-                name: client.user.name
-            }
-        }
+        // if (result.error) {
+        //     await this.updateItemsState()
+        //     return result
+        // }
+
+        // if (result && result.price) {
+        //     this.addPlayerMoney(userId, result.price)
+        //     if (result.price > this.maxHighestPrise) {
+        //         this.maxHighestPrise = result.price
+        //         this.options.newHighestPrise(userId, result.price, result.name)
+        //     }
+        //     this.state.saled[result.name] = {
+        //         prise: result.price,
+        //         name: client.user.name
+        //     }
+        // }
 
         await this.updateItemsState()
         return result
@@ -380,17 +385,11 @@ class GameRoom extends Room {
         }
         const pos = { position_x: position.x - 200, position_y: position.y - 50 }
 
-        await this.game.addItemFromJson({
-            className: marketItem.item,
-            type: marketItem.type,
-            inputs: toInputs(marketItem.inputs),
-            actions: marketItem.actions,
-            attributes: marketItem.attributes,
-            emoji: marketItem.emoji,
-            owner: [TEAM.PLAYER],
-            ...pos
+        //this.game.create(marketItem.item, marketItem.actions)
+        await this.game.createFromJSON(marketItem, {
+            ...pos,
+            owner: [TEAM.PLAYER]
         }, userId)
-
     }
     async startDragging(id, userId) {
         this.game.startDrag(id, userId)
@@ -408,7 +407,7 @@ class GameRoom extends Room {
             type: ITEM_TYPE.WAREROOM,
             actions: { "吃物品": {}, "食用物品": {} },
             attributes: {
-                [ATTRIBUTES.MONEY]: GAME_CONFIG.INIT_MONEY,
+                [ATTRIBUTES.MONEY]: this.gameConfig.init_money,
                 "饱食度": "饱腹",
                 "心情": "平静",
                 "血量": "满血",
@@ -418,7 +417,7 @@ class GameRoom extends Room {
             reason: "我是一个玩家",
             player: client.user.id,
         }, client.user.id)
-        this.setPlayerMoney(client.user.id, GAME_CONFIG.INIT_MONEY)
+        this.setPlayerMoney(client.user.id, this.gameConfig.init_money)
         // const playerId = client.wareroom.id
         // await this.game.addItemFromJson({
         //     className: `狗`,
@@ -594,12 +593,28 @@ const leave = async (socket) => {
     }
 };
 
+const getConfig = async (levelId) => {
+    if (!levelId) {
+        return GAME_CONFIG
+    }
+    try {
+        const level = await Level.findById(levelId).exec()
+        if (!level) return GAME_CONFIG
+        const content = level.content
+        if (!content) return GAME_CONFIG
+        return typeof content == "string" ? JSON.parse(content) : content
+    } catch (error) {
+        return GAME_CONFIG
+    }
+}
+
 const gameLogic = async (socket) => {
     const { user, handshake: { query } } = socket;
     const roomId = query.roomId;
     const create = query.create == "true";
     const isPublic = query.public == "true";
     const team = query.team ?? [TEAM.PLAYER]
+    const gameConfig = await getConfig(query.levelId)
 
     socket.sequenceNumber = 0;
 
@@ -613,11 +628,11 @@ const gameLogic = async (socket) => {
     };
 
     const onReceiving = () => socket.mainRoom?.broadcast(io).emit("receiving");
-    const onSuprise = () => socket.mainRoom?.broadcast(io).emit("suprise");
+    //const onSuprise = () => socket.mainRoom?.broadcast(io).emit("suprise");
     const onPlayerDeath = (client) => socket.mainRoom?.broadcast(io).emit("player_death", client.user.id)
     const onScriptApplyItem = (itemID, applyItemId, emoji) => socket.mainRoom?.broadcast(io).emit("script_apply_item", itemID, applyItemId, emoji)
 
-    const roomOptions = { newHighestPrise, onReceiving, onSuprise, onPlayerDeath, onScriptApplyItem, public: isPublic, createrId: user.id };
+    const roomOptions = { newHighestPrise, onReceiving, onPlayerDeath, onScriptApplyItem, public: isPublic, createrId: user.id, gameConfig };
     const newMainRoom = create ? await roomManager.createRoom(GameRoom, roomOptions) : await join(socket, roomId);
     if (create) await join(socket, newMainRoom.roomId, { team });
 

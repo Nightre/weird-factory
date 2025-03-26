@@ -1,5 +1,5 @@
 <template>
-    <VaModal :beforeOk="beforeOk" size="small" v-model="show" cancelText="取消" :ok-text="tabValue == 0 ? '创建' : '加入'">
+    <VaModal :beforeOk="beforeOk" size="small" v-model="show" cancelText="取消" :ok-text="okText">
         <VaTabs v-model="tabValue" grow>
             <template #tabs>
                 <VaTab v-for="tab in TABS" :key="tab.key" :name="tab.key">
@@ -9,7 +9,7 @@
         </VaTabs>
         <div>
             <div v-if="tabValue == TYPE.JOIN" class="box">
-                <VaForm ref="formRef" class="flex flex-col form">
+                <VaForm ref="formRef" class="form">
                     <VaInput v-model="form.roomId" :rules="[
                         requiredValidate('请输入房间号'),
                         minMaxValidate('房间号', 6, 6)
@@ -17,8 +17,18 @@
                 </VaForm>
                 <p>加入你朋友的房间</p>
             </div>
-            <div v-else class="box">
-                <p>创建一个房间让你的朋友加入</p>
+            <div class="box">
+                <div v-if="tabValue == TYPE.CREATE">
+                    <p>创建一个房间让你的朋友加入</p>
+                </div>
+                <div v-if="tabValue == TYPE.SINGLE || tabValue == TYPE.CREATE">
+                    <div v-if="props.level">
+                        <p>使用关卡：<span style="color: #888;">{{ props.level.title }}</span></p>
+                    </div>
+                    <div v-else>
+                        <p>使用默认关卡</p>
+                    </div>
+                </div>
             </div>
         </div>
     </VaModal>
@@ -28,20 +38,45 @@
 import { useJoinRoom } from '@/utils/join-room';
 import minMaxValidate from '@/utils/min-max-validate';
 import requiredValidate from '@/utils/required-validate';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useForm } from 'vuestic-ui';
+import type { ILevelData } from '@/stores/game';
 
-const { validate, isValid } = useForm('formRef');
+const props = defineProps<{ level?: ILevelData }>()
+const canJoin = computed(() => !Boolean(props.level))
+
+const { validate } = useForm('formRef');
 const { joinRoom } = useJoinRoom()
 
 const beforeOk = () => {
-    if (validate() || (tabValue.value !== TYPE.JOIN)) {
-        show.value = false
-        joinRoom({
-            roomId: form.roomId,
-            create: tabValue.value == TYPE.CREATE,
-            public: true,
-        })
+    switch (tabValue.value) {
+        case TYPE.CREATE:
+            joinRoom({
+                roomId: form.roomId,
+                create: true,
+                public: true,
+                levelId: props.level?.id
+            })
+            break;
+
+        case TYPE.JOIN:
+            if (validate()) {
+                joinRoom({
+                    roomId: form.roomId,
+                    create: false,
+                    public: true,
+                    levelId: props.level?.id
+                })
+            }
+            break;
+        case TYPE.SINGLE:
+            joinRoom({
+                roomId: form.roomId,
+                create: true,
+                public: false,
+                levelId: props.level?.id
+            })
+            break;
     }
 }
 
@@ -51,17 +86,29 @@ const form = reactive({
 
 enum TYPE {
     CREATE,
-    JOIN
+    JOIN,
+    SINGLE
 }
 
 const show = defineModel("show", { type: Boolean, default: false })
 const tabValue = defineModel("tabValue", { type: Number, default: TYPE.CREATE })
 const isLoading = ref(false)
 
-const TABS = [
+const TABS = canJoin.value ? [
     { title: "创建房间", key: TYPE.CREATE },
     { title: "加入房间", key: TYPE.JOIN },
-];
+] : [
+    { title: "联机", key: TYPE.CREATE },
+    { title: "单人", key: TYPE.SINGLE },
+]
+
+const okText = computed(() => {
+    return {
+        [TYPE.CREATE]: "创建",
+        [TYPE.JOIN]: "加入",
+        [TYPE.SINGLE]: "开始",
+    }[tabValue.value]
+})
 </script>
 
 <style scoped>

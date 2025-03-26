@@ -14,7 +14,6 @@ import { useGameStore, type IRoomState } from './stores/game'
 import { SplashScreen } from '@capacitor/splash-screen'
 
 const app = createApp(App)
-
 app.use(createPinia())
 app.use(router)
 app.use(createVuestic())

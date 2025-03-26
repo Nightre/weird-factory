@@ -1,0 +1,103 @@
+<template>
+    <JoinRoomModel :level="level" v-model:show="isShowRoomModel" />
+    <div class="level-detail">
+        <VaButton icon-right="arrow_forward" icon-color="#ffffff50" style="position: absolute;top: 0.5rem;left: 0.5rem;"
+            to="/home">
+            返回主页
+        </VaButton>
+        <h1 class="title">{{ level.title }}</h1>
+        <p>作者：{{ level.author?.name }}</p>
+        <VaDivider />
+
+        <div class="content">
+            {{ level.content }}
+        </div>
+
+        <div class="actions">
+            <VaButton preset="secondary" border-color="primary" :loading="isLikeLoading" :disabled="isLikeLoading"
+                @click="handleLike">
+                <VaIcon name="favorite" :color="level.isLiked ? '#ff5252' : '#888'" />
+                <span style="margin-left: 0.5rem;">{{ level.likes }}</span>
+            </VaButton>
+            <VaButton preset="secondary" style="margin-left: 0.5rem;" @click="handleUse">
+                使用该关卡
+            </VaButton>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { axios } from "../utils/axios";
+import type { ILevelData } from '@/stores/game';
+import JoinRoomModel from '@/components/joinRoom.vue';
+const route = useRoute();
+
+const isShowRoomModel = ref(false)
+const level = ref<ILevelData>({} as ILevelData);
+const isLoading = ref(false);
+const isLikeLoading = ref(false);
+
+const fetchLevel = async () => {
+    isLoading.value = true;
+    try {
+        const result = await axios.get(`/levels/${route.params.id}`);
+        if (result.data.success) {
+            level.value = result.data.data;
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+const handleLike = async () => {
+    isLikeLoading.value = true;
+    try {
+        const result = await axios.post(`/levels/${route.params.id}/like`);
+        if (result.data.success) {
+            level.value = result.data.data;
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        isLikeLoading.value = false;
+    }
+};
+
+const handleUse = () => {
+    isShowRoomModel.value = true
+};
+
+onMounted(() => {
+    fetchLevel();
+});
+</script>
+
+<style scoped>
+.level-detail {
+    background-color: #fff;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100vh;
+}
+
+.title {
+    margin-bottom: 1rem;
+}
+
+.content {
+    white-space: pre-wrap;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+}
+</style>

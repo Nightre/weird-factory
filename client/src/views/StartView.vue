@@ -39,6 +39,8 @@ const checkVersion = () => {
       isCheckingVersion.value = false
       isLogin.value && router.push('/home')
     }
+  }).catch(() => {
+    error.value = `无网络，无法开始游戏。`
   })
   //}
 }

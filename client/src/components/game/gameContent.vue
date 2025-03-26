@@ -1,17 +1,23 @@
 <template>
-    <div class="game-content" ref="containerRef" @wheel.prevent="(e) => handleWheel(e)"
-        @pointerdown="startBackgroundDrag"    
+    <div class="game-content" ref="containerRef"
+        @wheel.prevent="handleWheel"
+        @pointerdown.prevent.stop="startBackgroundDrag"
+        @touchstart.prevent.stop="touchStart"
+        @touchmove.prevent.stop="touchMove"
+        @touchend.prevent.stop="touchEnd"
     >
         <div class="grid-overlay" :style="gridStyle"></div>
-        <div class="content-container" :style="{
-            transform: `translate(${store.backgroundPosition.x}px, ${store.backgroundPosition.y}px) scale(${scale})`,
-            transformOrigin: '0 0'
-        }">
+        <div class="content-container" 
+            :style="{
+                transform: `translate(${store.backgroundPosition.x}px, ${store.backgroundPosition.y}px) scale(${scale})`,
+                transformOrigin: '0 0'
+            }"
+        >
 
             <TransitionGroup name="game-item-transition">
                 <template v-for="item in (store.roomState as IRoomState).items" :key="item.id">
-                    <game-item :root="item.id" :disable="false" :child="false" v-if="!item.output"
-                        :itemId="item.id" :startDrag="startDrag" />
+                    <game-item :root="item.id" :disable="false" :child="false" v-if="!item.output" :itemId="item.id"
+                        :startDrag="startDrag" />
                 </template>
             </TransitionGroup>
 
@@ -37,11 +43,11 @@ import { useDraggable, snapSize } from '@/composables/useDraggable';
 import { useZoomable } from '@/composables/useZoomable';
 import { moveItemStop, moveItem } from '@/game/game';
 import GameItem from './gameItem.vue';
-import { watch } from 'vue';
+import { watch, ref } from 'vue';
 import { useUserStore, type UserInfo } from '@/stores/user';
 import { useMouseUpdate } from '@/composables/useMouseUpdate';
 import { computed } from 'vue';
-
+import { usePinch } from '@/composables/usePinch';
 const store = useGameStore();
 const userStore = useUserStore()
 
@@ -75,7 +81,9 @@ const onItemStopMoved = (id: string) => {
     moveItemStop(id)
 }
 
-const { scale, handleWheel } = useZoomable();
+const { scale, handleWheel, setScaleOrigin } = useZoomable();
+const { touchStart, touchMove, touchEnd } = usePinch(setScaleOrigin)
+
 const { startDrag, containerRef, startBackgroundDrag } = useDraggable(onItemMoved, onItemStopMoved);
 useMouseUpdate()
 

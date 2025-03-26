@@ -11,7 +11,7 @@
                 <div style="margin-left: 1.5rem;"></div>
                 <VaButton preset="secondary" size="small" :icon="item.fold ? 'expand_more' : 'expand_less'"
                     v-if="showFoldBtn && !props.shadow" @click.stop="onFoldClick" textColor="#000000"
-                    style="right:0;position: absolute;" @pointerdown.stop>
+                    style="right:0;position: absolute;" @pointerdown.stop="onFoldClick">
                 </VaButton>
             </div>
             <div v-show="!item.fold && !props.shadow">
@@ -85,16 +85,17 @@ const store = useGameStore();
 const item = computed(() => store.getItem(props.itemId));
 const { userInfo } = storeToRefs(useUserStore());
 const userId = (userInfo.value as UserInfo).id;
+
 const onFoldClick = () => {
+    if (store.isPinching) return;
     item.value.fold = !item.value.fold
     setFold(props.itemId, item.value.fold)
 }
+
 const actions = computed(() => {
-    // if (item.value.isLocked && item.value.others) {
-    //     return difference(Object.keys(item.value.actions), item.value.privateActions)
-    // }
     return Object.keys(item.value.actions)
 })
+
 const isOwner = computed(() => {
     const team = store.getSelfData()?.public.team
     if (item.value.owner.includes(userId) || (team && hasIntersection(team, item.value.owner))) {
@@ -137,19 +138,19 @@ const itemStyle = computed(() => {
 });
 
 const itemClasses = computed(() => ({
-    'active': item.value.id === store.canConnectItem && store.canConnectItemSlot === null,
+    'active': item.value.id === store.canConnectItem && store.canConnectItemSlot === null && !store.isPinching,
     'machine': Object.values(item.value.actions).length > 0,
     'submit': item.value.type === ITEM_TYPE.SUBMIT,
     'tool': item.value.type === ITEM_TYPE.TOOL,
     'child': props.child,
     'loading': item.value.isLoading,
-    'dragging': item.value.isDragging && !props.shadow,
+    'dragging': item.value.isDragging && !props.shadow && !store.isPinching,
     'others-locked': item.value.isLocked && !isOwner.value,
     'dark': (props.layer || 0) % 2 != 0,
     'has-target-slot': store.hasTargetSlot,
     'shadow': props.shadow,
     'has-script': item.value.hasScript,
-    'current': store.currentItem?.id === item.value.id && !props.shadow
+    'current': store.currentItem?.id === item.value.id && !props.shadow && !store.isPinching
 }));
 
 const onMouseEnter = () => {
@@ -165,11 +166,15 @@ const onMouseLeave = () => {
 const onMouseDown = (event: PointerEvent): void => {
     store.setCurrentItem(props.itemId);
 
+    if (store.isPinching) {
+        return;
+    }
+
     if (item.value.isLoading || item.value.isDragging || props.disable || store.hasTargetSlot || props.shadow) {
         return;
     }
 
-    if (props.input && props.input.type == INPUT_TYPE.PRIVATE) {
+    if (props.input && props.input.type == INPUT_TYPE.PRIVATE && item.value.others) {
         return;
     }
     if (!item.value.isLocked || isOwner.value) {
@@ -200,6 +205,9 @@ const onActionClick = (): void => {
 };
 
 const onClick = () => {
+    if (store.isPinching) {
+        return;
+    }
     if (store.hasTargetSlot && !props.shadow) {
         store.setTargetSlotValue(item.value.id);
         store.setTargetSlot(null, null);

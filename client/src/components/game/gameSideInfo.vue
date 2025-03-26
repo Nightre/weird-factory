@@ -20,9 +20,8 @@
                     <span v-else>已有 {{ store.currentItemInfo.discovedNum }} 人发现</span>
                 </div>
                 <p class="second-info">
-                    <span class="second-info-item"> {{ store.currentItemInfo.firstCreater?.name }}</span>第一次在
-                    <span class="second-info-item"> {{ store.currentItemInfo.createdAt }}</span>发现
-                    <span class="second-info-item"> {{ store.currentItem.showText + store.currentItem.emoji }}</span>
+                    <span class="second-info-item"> {{ store.currentItemInfo.firstCreater?.name }}</span>在
+                    <span class="second-info-item"> {{ store.currentItemInfo.createdAt }}</span>最先发现
                 </p>
             </template>
             <h3 style="margin-bottom: 0.5rem;margin-top: 0.5rem;">行为执行</h3>
@@ -51,9 +50,7 @@ const store = useGameStore()
 const userStore = useUserStore()
 const userId = userStore.getSelfId()
 const isFirst = computed(() => store.currentItemInfo.discovedNum == 1 && store.currentItemInfo.firstCreater.id == userId)
-const leaderboard = computed(() => {
-    return Object.entries((store.roomState as IRoomState).saled).sort((a, b) => b[1].prise - a[1].prise).slice(0, 10)
-})
+
 const playerItem = computed(() => {
     return store.getItem(store.getSelfData()?.public.playerItem!)
 })

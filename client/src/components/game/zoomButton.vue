@@ -16,15 +16,24 @@
                     remove
                 </VaIcon>
             </button>
+            <button @click="resetBackgroundPos()">
+                <VaIcon class="material-icons">
+                    room
+                </VaIcon>
+            </button>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { useZoomable } from '@/composables/useZoomable';
+import { useGameStore } from '@/stores/game';
 
 const d = 0.3
 const { setScale, scale } = useZoomable()
-
+const store = useGameStore()
+const resetBackgroundPos = ()=>{
+    store.resetBackgroundPos()
+}
 </script>
 <style scoped>
 .bbox {

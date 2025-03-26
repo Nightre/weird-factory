@@ -10,6 +10,31 @@ export function useZoomable() {
     const store = useGameStore()
     const { scale } = storeToRefs(store)
 
+    const setScaleOrigin = (newScale: number, x: number, y: number) => {
+        const clampedScale = Math.min(Math.max(newScale, minScale), maxScale);
+        if (clampedScale === scale.value) return clampedScale;
+        
+        const gameDom = store.gameDom;
+        if (!gameDom) return clampedScale;
+
+        const rect = gameDom.getBoundingClientRect();
+        const mouseX = x - rect.left;
+        const mouseY = y - rect.top;
+
+        const contentX = (mouseX - store.backgroundPosition.x) / scale.value;
+        const contentY = (mouseY - store.backgroundPosition.y) / scale.value;
+
+        scale.value = clampedScale;
+
+        const newX = mouseX - contentX * clampedScale;
+        const newY = mouseY - contentY * clampedScale;
+
+        store.backgroundPosition.x = newX;
+        store.backgroundPosition.y = newY;
+
+        return clampedScale
+    }
+
     const setScale = (newScale: number) => {
         const clampedScale = Math.min(Math.max(newScale, minScale), maxScale);
         if (clampedScale === scale.value) return;
@@ -65,6 +90,7 @@ export function useZoomable() {
     return {
         scale,
         handleWheel,
-        setScale
+        setScale,
+        setScaleOrigin
     };
 }

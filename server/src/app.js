@@ -10,6 +10,7 @@ import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
 import downloadRouter from './routes/download.js'
 import gameRouter, { startSocketServer } from './routes/game.js';
+import levelsRouter from './routes/levels.js';
 
 import mongoose from 'mongoose';
 import config from './config.js';
@@ -25,7 +26,6 @@ const app = express();
 
 export const db = mongoose.connect(config.db);
 
-app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -70,6 +70,7 @@ app.use('/', downloadRouter);
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/game', gameRouter);
+app.use('/api/levels', levelsRouter);
 
 app.use((req, res, next) => {
     next(new ApiError(404, '接口不存在'));
@@ -78,7 +79,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = status === 500
-        ? '服务器内部错误' + err.message
+        ? '服务器内部错误'
         : err.message;
 
     res.status(status).json({

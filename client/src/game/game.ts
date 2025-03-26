@@ -100,7 +100,7 @@ export const create = async (options: IRoomCreateOptions) => {
     const { notify } = useToast()
 
     let sequenceNumber = 0;
-    console.log("创建SocketIO实例，连接到：", import.meta.env.VITE_SOCKET_SERVER_URL)
+    console.log("创建SocketIO实例，连接到：", import.meta.env.VITE_SOCKET_SERVER_URL, options)
     socket = io(import.meta.env.VITE_SOCKET_SERVER_URL, {
         query: options,
         auth: {
@@ -233,7 +233,7 @@ export const detectingConnections = (targetItems: IItem) => {
     }
 
     Object.values(roomState.items).forEach(item => {
-        if (item.isLoading || (item.root == targetItems.root) || (item.isLocked && item.others)) {
+        if (item.isLoading || (item.root == targetItems.root)) {
             return
         }
 
@@ -253,7 +253,7 @@ export const detectingConnections = (targetItems: IItem) => {
             }
         }
 
-        if (distance < minDistance && !item.output) {
+        if (distance < minDistance && !item.output && !(item.isLocked && item.others)) {
             minDistance = distance
             minDistanceItem = item
             minSlot = null
@@ -316,12 +316,8 @@ export const actionMachine = (id: string, action: string) => {
     store.setItemLoading(id, true)
     socket.emit("action_machine", { id, action }, (result: IActionResult) => {
         store.setItemLoading(id, false)
-        if (result) {
-            if (result.error) {
-                notify({ message: result.error, color: "warning", position: "top-center" })
-            } else if (result.isSubmit) {
-                notify({ message: result.name + " 买了 " + result.price + "🪙 （卖家：" + result.reason + "）", color: "success", position: "top-center" })
-            }
+        if (result && result.error) {
+            notify({ message: result.error, color: "warning", position: "top-center" })
         }
     })
 }

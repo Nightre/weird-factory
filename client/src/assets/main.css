@@ -3,10 +3,19 @@
 
 .flex {
     display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .flex-col {
+    display: flex;
     flex-direction: column;
+}
+
+.flex-between {
+    justify-content: space-between;
+    display: flex;
+    align-items: center
 }
 
 .abs-center {
@@ -24,4 +33,38 @@
 
 .divider {
     --va-divider-margin: 1.5rem;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 0.3rem;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.card-body {
+    padding: 0.5rem;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.panel {
+    height: 80vh;
+    width: 80vw;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
 }

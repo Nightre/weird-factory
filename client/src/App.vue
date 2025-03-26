@@ -8,7 +8,6 @@ import { useRouter } from 'vue-router';
 
 const store = useUserStore()
 const router = useRouter()
-const route = useRoute()
 
 onMounted(async () => {
   const res = await axios.get<successReq>('/users/check-login')

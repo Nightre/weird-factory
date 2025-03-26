@@ -9,6 +9,7 @@ export const useJoinRoom = () => {
     store.gameCreateData.public = options.public;
     store.gameCreateData.create = options.create;
     store.gameCreateData.roomId = options.roomId;
+    store.gameCreateData.levelId = options.levelId;
 
     router.push({
       name: "Game", query: { roomId: options.roomId }

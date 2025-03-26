@@ -17,8 +17,8 @@
 <style scoped>
 .abs-center {
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: 50vw;
+    top: 50vh;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;

@@ -6,6 +6,10 @@ import { useUserStore } from '@/stores/user'
 import HelpView from '@/views/HelpView.vue'
 import { ScreenOrientation } from '@capacitor/screen-orientation'
 import StartView from '@/views/StartView.vue'
+import CreateLevelView from '@/views/createLevelView.vue'
+import ViewLevelView from '@/views/viewLevel.vue'
+import MyLevelsView from '@/views/myLevels.vue'
+import SearchLevelsView from '@/views/searchLevels.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +43,31 @@ const router = createRouter({
       name: 'help',
       component: HelpView,
       meta: { orientation: 'portrait' }
-    }
+    },
+    {
+      path: '/createLevel',
+      name: 'createLevel',
+      component: CreateLevelView,
+      meta: { orientation: 'portrait' }
+    },
+    {
+      path: '/level/:id',
+      name: 'viewLevel',
+      component: ViewLevelView,
+      meta: { orientation: 'portrait' }
+    },
+    {
+      path: '/myLevels',
+      name: 'myLevels',
+      component: MyLevelsView,
+      meta: { orientation: 'portrait' }
+    },
+    {
+      path: '/searchLevels',
+      name: 'searchLevels',
+      component: SearchLevelsView,
+      meta: { orientation: 'portrait' }
+    },
   ],
 })
 

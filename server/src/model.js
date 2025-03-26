@@ -44,6 +44,48 @@ export const TEAM = {
     PLAYER:"player",
     AI:"AI"
 }
+
+const LevelSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    content: {
+        type: Object,
+        required: true
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    created_at: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+LevelSchema.methods = {
+    async serialize(user, useContent = true) {
+        await this.populate('author');
+        const hasLiked = this.likes.some(like => like.equals(user.id));
+        return {
+            id: this._id,
+            title: this.title,
+            content: useContent ? this.content : {},
+            author: this.author.serialize(LEVEL.PUBLIC),
+            likes: this.likes.length,
+            isLiked: hasLiked,
+            createdAt: formatRelativeTime(this.created_at)
+        };
+    }
+};
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -376,3 +418,4 @@ export const Item = mongoose.model('Items', ItemSchema);
 export const Inventory = mongoose.model('Inventory', InventorySchema);
 export const User = mongoose.model('User', UserSchema);
 export const ItemClassesDiscover = mongoose.model('ItemClassesDiscover', ItemClassesDiscoverSchema)
+export const Level = mongoose.model('Level', LevelSchema);

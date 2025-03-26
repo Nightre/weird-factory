@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 60%;margin: auto;">
+    <div style="width: 95%;margin: auto;">
         <VaButton icon-right="arrow_forward" icon-color="#ffffff50" style="margin-bottom: 1rem;margin-top: 2rem;" to="/home">
             返回主页
         </VaButton>

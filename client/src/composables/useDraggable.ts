@@ -3,7 +3,7 @@ import { useGameStore, type IItem } from '@/stores/game';
 import { useUserStore, type UserInfo } from '@/stores/user';
 import { compareStrings } from '@/utils/str';
 import { storeToRefs } from 'pinia';
-import { ref, onUnmounted, type Ref, type Reactive, onMounted } from 'vue';
+import { ref, onUnmounted, type Ref, type Reactive, onMounted, computed, watch } from 'vue';
 
 export interface Position {
     x: number;
@@ -46,10 +46,17 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
     let initialY = 0;
     let isBackgroundDragging = false;
     const store = useGameStore();
-    const { scale } = storeToRefs(store)
+    const { scale, isPinching } = storeToRefs(store)
     const containerRef = ref<HTMLElement | null>(null);
 
+    watch(isPinching, (newIsPinching) => {
+        if (newIsPinching) stopDrag()
+    })
+
     const startDrag = (event: PointerEvent, item: Reactive<IItem>) => {
+        if (isPinching.value) {
+            return;
+        }
         startDragEmit(item.id);
         store.orderTop(item.id);
         const gameDom = store.gameDom;
@@ -61,7 +68,7 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
         const iy = (itemReact.y - gameReact.y) - store.backgroundPosition.y;
 
         isDragging = true;
-        
+
         currentItem = item;
 
         initialX = (event.clientX - ix) / scale.value;
@@ -69,10 +76,15 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
     };
 
     const startBackgroundDrag = (event: PointerEvent) => {
+        if (isPinching.value) {
+            return;
+        }
+
         if (event.target === containerRef.value) {
+
             store.setCurrentItem(null)
             isBackgroundDragging = true;
-            
+
             initialX = event.clientX - store.backgroundPosition.x;
             initialY = event.clientY - store.backgroundPosition.y;
 
@@ -82,11 +94,9 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
 
     const onDrag = (event: PointerEvent) => {
         if (!isDragging && !isBackgroundDragging) return;
-        
-        if (event.cancelable) {
-            event.preventDefault();
+        if (isPinching.value) {
+            return;
         }
-        
         let newX = 0;
         let newY = 0;
 
@@ -94,7 +104,7 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
             currentItem.isDragging = true;
             newX = event.clientX / scale.value - initialX;
             newY = event.clientY / scale.value - initialY;
-            
+
             currentItem.x = Math.round(newX);
             currentItem.y = Math.round(newY);
 
@@ -102,15 +112,15 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
         } else if (isBackgroundDragging) {
             newX = event.clientX - initialX;
             newY = event.clientY - initialY;
-            
+
             store.backgroundPosition.x = newX;
             store.backgroundPosition.y = newY;
         }
     };
 
-    const stopDrag = (event: PointerEvent) => {
+    const stopDrag = () => {
         if (!isDragging && !isBackgroundDragging) return;
-        
+
         if (draggingItemId && currentItem) {
             if (store.snap) {
                 currentItem.x = Math.round(currentItem.x / snapSize) * snapSize;

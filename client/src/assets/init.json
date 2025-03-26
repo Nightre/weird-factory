@@ -1,0 +1,52 @@
+{
+    "init_money": 100,
+    "init_items": [
+        {
+            "name": "水",
+            "price": 10,
+            "num": 12,
+            "emoji": "💧",
+            "reason":"非常棒的水",
+            "info": "告诉AI这个物品有无其他特殊的规则，无法从名字得出的规则"
+        }
+    ],
+    "market_data": [
+        {
+            "category": "基础资源",
+            "items": [
+                {
+                    "item": "水",
+                    "price": 10,
+                    "num": 12,
+                    "emoji": "💧"
+                }
+            ]
+        },
+        {
+            "category": "生物",
+            "items": [
+                {
+                    "item": "鸡",
+                    "price": 10,
+                    "num": 12,
+                    "emoji": "🐓",
+                    "baseInputs": {
+                        "每个动作都在的普通输入": "INPUT_TYPE.NORMAL",
+                        "每个动作都在的允许引用的输入": "INPUT_TYPE.ALLOW_REFERENCE",
+                        "每个动作都在的私有输入": "INPUT_TYPE.PRIVATE"
+                    },
+                    "actions": {
+                        "激活": {
+                            "普通输入": "INPUT_TYPE.NORMAL",
+                            "允许引用的输入": "INPUT_TYPE.ALLOW_REFERENCE",
+                            "私有输入": "INPUT_TYPE.PRIVATE"
+                        }
+                    },
+                    "attributes": {
+                        "状态": "睡眠中"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-import { ref, reactive, type Reactive } from 'vue';
+import { ref, reactive, type Reactive, nextTick } from 'vue';
 import { defineStore } from 'pinia';
 import type { PlayerList } from '@/utils/type';
 import { createInitInputsData, INPUT_TYPE, LOCK_TYPE, MARKET_TYPE, type ITEM_TYPE } from '@/utils/server-enum';
@@ -17,7 +17,8 @@ export enum STATE {
 export interface IRoomCreateOptions {
     public?: boolean,
     create?: boolean,
-    roomId: string
+    roomId: string,
+    levelId?: string
 }
 export interface IInput extends IInputOption {
     item: string | null
@@ -121,10 +122,26 @@ export interface IMarketItem {
     divide: boolean,
     text: string
 }
+export interface ILevelData {
+    title: string;
+    content: string;
+    author: UserInfo;
+    likes: number;
+    createdAt: string;
+    id: string;
+    isLiked: boolean;
+}
 
 export interface IMarket {
     category: string,
     items: IMarketItem[]
+}
+
+export interface IPaggin<T> {
+    page: number,
+    limit: number,
+    total: number,
+    data: T[]
 }
 
 export const addRemoteMid = () => {
@@ -460,6 +477,14 @@ export const useGameStore = defineStore('game', () => {
             Object.assign(currentItemInfo, await getClassInfo(currentItem.value.classId))
         }
     }
+    const isPinching = ref(false)
+    const resetBackgroundPos = () => {
+        const reat = gameDom.value!.getBoundingClientRect()
+        backgroundPosition.x = reat.width / 2
+        backgroundPosition.y = reat.height / 2
+        scale.value = 1
+    }
+
     return {
         roomId,
         state,
@@ -485,8 +510,10 @@ export const useGameStore = defineStore('game', () => {
         gameCreateData,
         currentItem,
         currentItemInfo,
+        isPinching,
 
         //////////
+        resetBackgroundPos,
         setCurrentItem,
         getGlobalPos,
         addActionLine,
