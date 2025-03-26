@@ -1,11 +1,12 @@
 <template>
     <div class="level-card" @click="handleClick">
-        <h1>{{ data.title }} <span class="date">- {{ data.createdAt }}</span></h1>
+        <h1><span v-if="!data.isPublic" style="color: #888;">[未公开]</span> {{ data.title }} <span class="date">- {{ data.createdAt }}</span></h1>
         <div class="footer">
             <p class="author">作者：{{ data.author.name }}</p>
             <div class="stats">
                 <VaIcon name="favorite" :color="data.isLiked ? '#ff5252' : '#888'" />
                 <span>{{ data.likes }}</span>
+                
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@
     "build:web": " vite build --mode web",
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
-    "copy": "copy ./android/app/build/outputs/apk/release/app-release-signed.apk ../server/src/public/main.apk"
+    "copy": "cp ./android/app/build/outputs/apk/release/app-release-signed.apk ../server/src/public/main.apk"
   },
   "dependencies": {
     "@capacitor/android": "^7.1.0",
@@ -25,6 +25,9 @@
     "axios": "^1.8.1",
     "fast-json-patch": "^3.1.1",
     "json-editor-vue": "^0.18.1",
+    "markdown-it": "^14.1.0",
+    "markdown-it-vue": "^1.1.7",
+    "marked": "^15.0.7",
     "pinia": "^3.0.1",
     "socket.io-client": "^4.8.1",
     "vue": "^3.5.13",

@@ -14,25 +14,34 @@ const requireAuth = (req, res, next) => {
     next();
 };
 
+// 校验关卡内容的函数
+const validateLevelContent = (content) => {
+    const contentJson = typeof content === 'string' ? JSON.parse(content) : content;
+    const ajv = new Ajv();
+    const valid = ajv.validate(gameConfigSchema, contentJson);
+
+    if (!valid) {
+        throw new Error('内容格式错误: \n' + ajv.errors[0].message);
+    }
+
+    return contentJson;
+};
+
 // 发布关卡
 router.post('/create', requireAuth, async (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, isPublic = false, description = '' } = req.body;
 
     if (!title || !content) {
         return returnError(res, '标题和内容不能为空');
     }
     try {
-        const contentJson = typeof content === 'string' ? JSON.parse(content) : content
-        const ajv = new Ajv()
-        const valid = ajv.validate(gameConfigSchema, contentJson)
-
-        if (!valid) {
-            return returnError(res, '内容格式错误: \n' + ajv.errors[0].message);
-        }
+        const contentJson = validateLevelContent(content);
         const level = await Level.create({
             title,
             content: contentJson,
-            author: res.locals.user._id
+            isPublic,
+            author: res.locals.user._id,
+            description
         });
 
         res.json({
@@ -44,13 +53,45 @@ router.post('/create', requireAuth, async (req, res) => {
     }
 });
 
+// 修改关卡
+router.post('/update/:id', requireAuth, async (req, res) => {
+    const { title, content, id, isPublic = false, description = '' } = req.body;
+
+    if (!title || !content) {
+        return returnError(res, '标题和内容不能为空');
+    }
+    try {
+        const contentJson = validateLevelContent(content);
+        const level = await Level.findByIdAndUpdate(id, {
+            title,
+            content: contentJson,
+            author: res.locals.user.id,
+            isPublic,
+            description
+        }, { new: true });
+
+        if (!level || level.author.toString() !== res.locals.user.id) {
+            return returnError(res, '关卡不存在');
+        }
+
+        res.json({
+            success: true,
+            data: await level.serialize(res.locals.user)
+        });
+    } catch (error) {
+        console.log(error);
+        return returnError(res, '必须为JSON格式' + error.message);
+    }
+});
+
 // 获取关卡列表
 router.get('/search', requireAuth, async (req, res) => {
     const { search = '', page = 1, limit = 20 } = req.query;
 
-    const query = search
-        ? { title: new RegExp(search, 'i') }
-        : {};
+    const query = {
+        isPublic: true,  // 只搜索公开的关卡
+        ...(search ? { title: new RegExp(search, 'i') } : {})
+    };
 
     const levels = await Level.find(query)
         .sort({ created_at: -1 })

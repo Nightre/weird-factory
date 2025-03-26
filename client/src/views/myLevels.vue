@@ -6,7 +6,8 @@
                 <h1>我的关卡</h1>
             </div>
             <div class="actions">
-                <VaButton color="primary" to="/createLevel" size="small" preset="secondary">
+                <VaButton color="primary" size="small" preset="secondary" @click="handleCreateLevel"
+                    :loading="isCreateLoading">
                     创建新关卡
                 </VaButton>
             </div>
@@ -39,7 +40,10 @@ import type { IPaggin, ILevelData } from '@/stores/game';
 import ListShow from '@/components/listShwo.vue';
 import LevelCard from '@/components/levelCard.vue';
 import BackBtn from '@/components/backBtn.vue';
+import { useRouter } from 'vue-router';
+import initJSON from '@/assets/init.json';
 
+const router = useRouter();
 const { confirm } = useModal();
 
 const isLoading = ref(true);
@@ -92,6 +96,25 @@ const deleteLevel = async (id: string) => {
         console.error('删除关卡失败:', error);
     }
 };
+
+const isCreateLoading = ref(false);
+const handleCreateLevel = async () => {
+    isCreateLoading.value = true;
+    try {
+        const result = await axios.post('/levels/create', {
+            title: '新关卡',
+            content: initJSON,
+            description: '这个关卡很好玩！'
+        });
+        if (result.data.success) {
+            router.push(`/editLevel/${result.data.data.id}`);
+        }
+    } catch (error) {
+        console.error('创建关卡失败:', error);
+    } finally {
+        isCreateLoading.value = false;
+    }
+}
 
 onMounted(() => {
     fetchLevels();

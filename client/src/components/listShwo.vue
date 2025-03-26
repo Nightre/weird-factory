@@ -2,13 +2,14 @@
     <div v-if="data.length == 0" class="empty-state">
         <p class="empty">空空如也</p>
     </div>
-    <div style="display: flex;flex-direction: column;gap: 0.5rem;">
+    <div style="display: flex;flex-direction: column;" :style="{gap: size == 'small' ? '0.5rem' : '1rem'}">
         <slot></slot>
     </div>
 </template>
 <script setup lang="ts">
 defineProps<{
-    data: unknown[]
+    data: unknown[],
+    size?: 'small' | 'large'
 }>()
 </script>
 <style scoped>

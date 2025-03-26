@@ -117,7 +117,7 @@ checkVersion()
 .game-title-box {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .game-title {
@@ -153,7 +153,7 @@ checkVersion()
 .menu-box {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
   min-width: 280px;
   margin-top: 1.5rem;

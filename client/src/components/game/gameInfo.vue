@@ -5,7 +5,8 @@
 
         <div v-show="!isCollapsed" style="padding:1rem;touch-action: pan-y;">
             <p class="ti">
-                <VaButton @click="goHome" icon="home" size="small" style="margin-right: 0.5rem;" color="danger">离开
+                <VaButton @click="goHome" icon="home" size="small" style="margin-right: 0.5rem;" :color="isEdit ? 'success' : 'danger'">
+                    {{ isEdit ? '返回编辑' : '离开' }}
                 </VaButton>奇想工厂
             </p>
             <VaDivider style="margin: 1rem 0;" />
@@ -40,7 +41,7 @@
                         <VaButton v-else class="market-item" @click="onBuyClick(index)"
                             :disabled="disableMarketItem(marketItem)" preset="primary" size="small">
                             <div class="market-content">
-                                <p>{{ marketItem.item }} {{ marketItem.emoji }}</p>
+                                <p>{{ marketItem.name }} {{ marketItem.emoji }}</p>
                                 <p>
                                     {{ marketItem.price }} ￥
                                     <span class="stock">剩余：{{ marketItem.num != null ? marketItem.num : "∞" }}</span>
@@ -74,14 +75,18 @@ const onBuyClick = (index: number) => buyItemEmit(tabValue.value, index)
 const disableMarketItem = (market: IMarketItem) => {
     return market.price > data.value!.public.money || market.num === 0
 }
-
+const isEdit = computed(() => typeof store.gameCreateData.editLevel === 'string')
 const isCollapsed = ref(false)
 const toggleCollapse = () => {
     isCollapsed.value = !isCollapsed.value
 }
 
 const goHome = () => {
-    router.push('/home')
+    if (isEdit.value) {
+        router.push('/editLevel/' + store.gameCreateData.editLevel)
+    } else {
+        router.push('/home')
+    }
     reset()
 }
 const selfMoeny = computed(() => data.value!.public.money)

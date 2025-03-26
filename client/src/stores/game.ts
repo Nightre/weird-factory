@@ -6,6 +6,7 @@ import { getClassInfo, OP, setOutputAndEmit, useModMiddleware, type IRemotePatch
 import { updateItemPos, type Position } from '@/composables/useDraggable';
 import { useUserStore, type UserInfo } from './user';
 import router from '@/router';
+
 export enum STATE {
     LOADING,
     ERROR,
@@ -17,8 +18,9 @@ export enum STATE {
 export interface IRoomCreateOptions {
     public?: boolean,
     create?: boolean,
-    roomId: string,
-    levelId?: string
+    roomId?: string,
+    levelId?: string,
+    editLevel?: string
 }
 export interface IInput extends IInputOption {
     item: string | null
@@ -114,7 +116,7 @@ export interface IPlayerData {
 }
 
 export interface IMarketItem {
-    item: string,
+    name: string,
     price: number,
     num: number,
     type: keyof typeof MARKET_TYPE,
@@ -122,14 +124,17 @@ export interface IMarketItem {
     divide: boolean,
     text: string
 }
+
 export interface ILevelData {
     title: string;
-    content: string;
+    content: any;
     author: UserInfo;
     likes: number;
     createdAt: string;
     id: string;
     isLiked: boolean;
+    isPublic: boolean;
+    description: string;
 }
 
 export interface IMarket {

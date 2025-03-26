@@ -10,6 +10,7 @@ import CreateLevelView from '@/views/createLevelView.vue'
 import ViewLevelView from '@/views/viewLevel.vue'
 import MyLevelsView from '@/views/myLevels.vue'
 import SearchLevelsView from '@/views/searchLevels.vue'
+import EditLevelView from '@/views/editLevelView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,10 +45,16 @@ const router = createRouter({
       component: HelpView,
       meta: { orientation: 'portrait' }
     },
+    // {
+    //   path: '/createLevel',
+    //   name: 'createLevel',
+    //   component: CreateLevelView,
+    //   meta: { orientation: 'landscape' }
+    // },
     {
-      path: '/createLevel',
-      name: 'createLevel',
-      component: CreateLevelView,
+      path: '/editLevel/:id',
+      name: 'editLevel',
+      component: EditLevelView,
       meta: { orientation: 'landscape' }
     },
     {

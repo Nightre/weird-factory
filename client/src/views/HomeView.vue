@@ -97,7 +97,7 @@ onMounted(() => {
           </VaButton>
         </div>
         <div class="room-list">
-          <ListShow :data="roomList">
+          <ListShow :data="roomList" size="small">
             <div class="room-card" v-for="room in roomList" :key="room.roomId">
               <div>
                 <p style="font-size: 1.4rem;">{{ room.playerName }}</p>
@@ -110,9 +110,6 @@ onMounted(() => {
           </ListShow>
         </div>
 
-      </div>
-      <div class="card-footer">
-        <p>温馨提示：友好相处，文明联机，请勿作弊。</p>
       </div>
     </div>
     <div class="card">
@@ -140,14 +137,12 @@ onMounted(() => {
           更多
         </VaButton>
       </div>
-      <div class="card-body">
-        <div class="level-list">
-          <ListShow :data="levelList.data">
-            <div v-for="item in levelList.data" :key="item.id" class="flex-col" style="gap: 0.5rem;">
-              <LevelCard :data="item" />
-            </div>
-          </ListShow>
-        </div>
+      <div class="card-body" style="overflow-y: auto;">
+        <ListShow :data="levelList.data" size="small">
+          <div v-for="item in levelList.data" :key="item.id" class="flex-col" style="gap: 0.5rem;">
+            <LevelCard :data="item" />
+          </div>
+        </ListShow>
       </div>
     </div>
   </div>
@@ -215,23 +210,21 @@ onMounted(() => {
   overflow-y: auto;
 
   gap: 0.5rem;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
   border-radius: 0.3rem;
   background-color: #fefefe;
   flex: 1;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
 }
 
 .level-list {
   overflow-y: auto;
 
   gap: 0.5rem;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
   border-radius: 0.3rem;
   background-color: #fefefe;
   flex: 1;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
 }
-
-
 </style>

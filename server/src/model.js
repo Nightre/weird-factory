@@ -55,6 +55,10 @@ const LevelSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
+    isPublic: {
+        type: Boolean,
+        default: false
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -67,6 +71,10 @@ const LevelSchema = new mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now
+    },
+    description: {
+        type: String,
+        default: ''
     }
 });
 
@@ -81,7 +89,9 @@ LevelSchema.methods = {
             author: this.author.serialize(LEVEL.PUBLIC),
             likes: this.likes.length,
             isLiked: hasLiked,
-            createdAt: formatRelativeTime(this.created_at)
+            createdAt: formatRelativeTime(this.created_at),
+            isPublic: this.isPublic,
+            description: this.description
         };
     }
 };
