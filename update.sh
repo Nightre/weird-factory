@@ -11,5 +11,6 @@ yarn
 # yarn
 cd ..
 chmod +x /var/www/weird-factory/update.sh
-pm2 start /var/www/weird-factory/server/bin/www --name wfc-app --env production
+pm2 restart wfc-app
+# pm2 start /var/www/weird-factory/server/bin/www --name wfc-app --env production
 # pm2 start /var/www/weird-factory/ecosystem.config.js
