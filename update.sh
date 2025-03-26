@@ -1,5 +1,6 @@
 #!/bin/bash
 cd /var/www/weird-factory
+nvm use 20
 git reset --hard HEAD
 git pull origin main
 cd server
