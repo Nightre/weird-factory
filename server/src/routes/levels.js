@@ -22,7 +22,7 @@ router.post('/create', requireAuth, async (req, res) => {
         return returnError(res, '标题和内容不能为空');
     }
     try {
-        const contentJson = JSON.parse(content)
+        const contentJson = typeof content === 'string' ? JSON.parse(content) : content
         const ajv = new Ajv()
         const valid = ajv.validate(gameConfigSchema, contentJson)
 

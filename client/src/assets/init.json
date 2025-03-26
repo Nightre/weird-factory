@@ -15,7 +15,7 @@
             "category": "基础资源",
             "items": [
                 {
-                    "item": "水",
+                    "name": "水",
                     "price": 10,
                     "num": 12,
                     "emoji": "💧"
