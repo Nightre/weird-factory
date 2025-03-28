@@ -24,7 +24,7 @@ class ProductionConfig extends Config {
   sessionMaxAge = '2y';
   env = 'production';
   sendEmail = false;
-  port = 80;
+  port = 3000;
 }
 
 const config = process.env.NODE_ENV === 'production' ? new ProductionConfig() : new Config();
