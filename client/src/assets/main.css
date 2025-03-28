@@ -1,7 +1,7 @@
 @import"https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,700&display=swap";
 @import"https://fonts.googleapis.com/icon?family=Material+Icons";
 
-.flex {
+.flex-row {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -76,7 +76,7 @@
 
 @media (max-width: 1100px) {
     .panel {
-        height: calc(100vh - 3rem);
-        width: calc(100vw - 3rem);
+        height: calc(100vh - 2rem);
+        width: calc(100vw - 2rem);
     }
 }

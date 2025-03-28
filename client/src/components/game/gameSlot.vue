@@ -2,17 +2,16 @@
     <span class="slot-name">{{ slotName }}</span>
     <span class="slot-container" :ref="el => setRef(el as Element, slotName)" :class="{
         'slot-container--active': active,
-        'has-target-slot': store.hasTargetSlot,
         'target-slot': isTargetSlot,
-        'private': input.type == INPUT_TYPE.PRIVATE
-    }" @click.stop.self="onSlotClick">
+        'private': input.type == INPUT_TYPE.PRIVATE,
+        'ref-slot': input.type == INPUT_TYPE.ALLOW_REFERENCE && !isTargetSlot && !input.item
+    }" @click.stop="onSlotClick" @touchstart.stop="onSlotClick">
 
         <slot></slot>
         <VaIcon v-if="input.type == INPUT_TYPE.ALLOW_REFERENCE && !isTargetSlot && !input.item" name="flag">
             flag
         </VaIcon>
-        <button class="clear-shadow-btn" v-show="input.item && input.isShadow" @click.stop="props.onClearShadow"
-            @pointerdown.stop>
+        <button class="clear-shadow-btn" v-show="input.item && input.isShadow" @click.stop="props.onClearShadow" @touchstart.stop="props.onClearShadow">
             <VaIcon name="cancel" />
         </button>
         <p v-show="isTargetSlot" class="tips">请点击一个物品引用</p>
@@ -54,18 +53,21 @@ const isTargetSlot = computed(() => store.targetSlot == props.slotName && store.
     border: 2px dashed #a0aec0;
     border-radius: 0.5rem;
     min-width: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .slot-container:hover {
     cursor: default;
 }
 
-.slot-container:hover:not(.has-target-slot) {
+.ref-slot:hover {
     background-color: #e3e3e3;
 }
 
 .slot-container--active {
-    box-shadow: 0 0 2px 8px rgba(251, 255, 0, 0.479);
+    outline: 3px solid rgba(102, 102, 102, 0.8);
 }
 
 .target-slot {
@@ -83,19 +85,11 @@ const isTargetSlot = computed(() => store.targetSlot == props.slotName && store.
 }
 
 .clear-shadow-btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-top: 1.1rem;
-    height: calc(100% - 1.1rem);
     width: 2rem;
-
-    background-color: transparent;
-    border: none;
     background-color: rgb(255, 255, 255);
     border-radius: 0.1rem;
     border: 1px solid #a0aec0;
-    z-index: 1000;
+    margin: 0.2rem;
 }
 .clear-shadow-btn:hover {
     background-color: #e3e3e3;

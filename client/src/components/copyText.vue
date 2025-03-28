@@ -1,5 +1,5 @@
 <template>
-  <span @click="copyText" class="copy-btn">{{ props.textToCopy }}</span>
+  <span @click="copyText" style="color: #8a8a8a;">{{ props.textToCopy }}</span>
 </template>
 <script setup lang="ts">
 import { useToast } from 'vuestic-ui';

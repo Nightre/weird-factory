@@ -22,10 +22,10 @@
             <p>可购买商品：{{ marketItems.join(', ') }}</p>
 
             <!-- <JsonEditorVue :model-value="level.content" read-only /> -->
-            <VaCollapse v-model="showContent" header="关卡代码" color="#3D92FF" color-all
+            <!-- <VaCollapse v-model="showContent" header="关卡代码" color="#3D92FF" color-all
                 icon="info" style="margin-top: 0.5rem;">
                 <JsonEditorVue :model-value="level.content" read-only />
-            </VaCollapse>
+            </VaCollapse> -->
             
         </div>
 
@@ -60,13 +60,14 @@ import MarkdownIt from "markdown-it";
 
 const markdown = new MarkdownIt()
 const route = useRoute();
-const showContent = ref(false)
+
 const marketItems = computed(() => {
     return level.value?.content?.market_data?.reduce(
         (acc: string[], item: { items: IMarketItem[] }) => {
             return [...acc, ...item.items.map((item: IMarketItem) => item.name)]
         }, [] as string[])
 })
+
 const isShowRoomModel = ref(false)
 const level = ref<ILevelData>({} as ILevelData);
 const isLoading = ref(false);

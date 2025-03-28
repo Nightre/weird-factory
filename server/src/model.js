@@ -75,6 +75,10 @@ const LevelSchema = new mongoose.Schema({
     description: {
         type: String,
         default: ''
+    },
+    featured: {
+        type: Boolean,
+        default: false
     }
 });
 

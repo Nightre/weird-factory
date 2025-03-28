@@ -1,22 +1,27 @@
 {
-  "create": [],
-  "change": {
-    "67e36299f1165f437159bab2": {
-      "attributes": {
-        "状态": "湿润"
-      },
-      "name": "湿面粉",
-      "emoji": "🍚",
-      "info": "湿面粉，可以做馒头了",
-      "reason": "吸水后的面粉"
+  "create": [
+    {
+      "name": "水",
+      "id": "67e610c9cad011990f78369a",
+      "attributes": {},
+      "actions": {},
+      "baseInputs": {},
+      "inputs": {},
+      "isLocked": true,
+      "privateActions": [],
+      "owner": [
+        "player"
+      ],
+      "emoji": "💧",
+      "reason": "两滴水融合在一起",
+      "info": "可以解渴"
     }
-  },
-  "changeSelf": {
-    "name": "增加湿机",
-    "inputs": {
-      "物品": null
-    }
-  },
-  "delete": [],
-  "description": "玩家asd_67e36298f1165f437159baaf 使用 增加湿机_67e36298f1165f437159baa9 将 面粉_67e36299f1165f437159bab2 变成了 湿面粉_67e36299f1165f437159bab2 。"
+  ],
+  "change": {},
+  "changeSelf": {},
+  "delete": [
+    "67e610c9cad011990f78369c",
+    "67e610c9cad011990f78369f"
+  ],
+  "description": "水ID_67e610c9cad011990f78369c 和 水ID_67e610c9cad011990f78369f 合体变成了水ID_67e610c9cad011990f78369a"
 }

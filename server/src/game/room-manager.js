@@ -5,7 +5,6 @@ import { observe, generate, unobserve, compare } from 'fast-json-patch/index.mjs
 export class Room {
     constructor(roomId, options) {
         this.gameConfig = options.gameConfig
-        console.log("初始化房间：",this.gameConfig)
         this.options = options
         this.roomId = roomId
         this.clientList = []

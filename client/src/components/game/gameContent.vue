@@ -1,18 +1,12 @@
 <template>
-    <div class="game-content" ref="containerRef"
-        @wheel.prevent="handleWheel"
-        @pointerdown.prevent.stop="startBackgroundDrag"
-        @touchstart.prevent.stop="touchStart"
-        @touchmove.prevent.stop="touchMove"
-        @touchend.prevent.stop="touchEnd"
-    >
+    <div class="game-content" ref="containerRef" @wheel.prevent="handleWheel"
+        @pointerdown.prevent.stop="startBackgroundDrag" @touchstart.prevent.stop="touchStart"
+        @touchmove.prevent.stop="touchMove" @touchend.prevent.stop="touchEnd">
         <div class="grid-overlay" :style="gridStyle"></div>
-        <div class="content-container" 
-            :style="{
-                transform: `translate(${store.backgroundPosition.x}px, ${store.backgroundPosition.y}px) scale(${scale})`,
-                transformOrigin: '0 0'
-            }"
-        >
+        <div class="content-container" :style="{
+            transform: `translate(${store.backgroundPosition.x}px, ${store.backgroundPosition.y}px) scale(${scale})`,
+            transformOrigin: '0 0'
+        }">
 
             <TransitionGroup name="game-item-transition">
                 <template v-for="item in (store.roomState as IRoomState).items" :key="item.id">
@@ -25,8 +19,7 @@
                 :style="getLineStyle(actionLine)">
                 <p class="action-line-text">{{ actionLine.action }}</p>
             </div>
-            <p>送货点</p>
-            <span class="material-icons">local_shipping</span>
+            <span class="material-icons">home</span>
             <div class="mouse-container" v-for="player, id in (store.roomState as IRoomState).players" :key="id">
                 <div v-if="id != userId" class="mouse" :style="getMouseStyle(id)">
                     <span class="material-icons">mouse</span>
@@ -43,11 +36,13 @@ import { useDraggable, snapSize } from '@/composables/useDraggable';
 import { useZoomable } from '@/composables/useZoomable';
 import { moveItemStop, moveItem } from '@/game/game';
 import GameItem from './gameItem.vue';
-import { watch, ref } from 'vue';
+import { watch, ref, nextTick } from 'vue';
 import { useUserStore, type UserInfo } from '@/stores/user';
 import { useMouseUpdate } from '@/composables/useMouseUpdate';
 import { computed } from 'vue';
 import { usePinch } from '@/composables/usePinch';
+import { onMounted } from 'vue';
+
 const store = useGameStore();
 const userStore = useUserStore()
 
@@ -114,6 +109,10 @@ const getLineStyle = computed(() => (actionLine: IActionLine) => {
         transform: `rotate(${angle}deg)`,
         transformOrigin: '0 50%'
     }
+})
+
+nextTick(() => {
+    store.resetBackgroundPos()
 })
 </script>
 <style scoped>

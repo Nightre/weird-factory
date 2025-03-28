@@ -1,7 +1,7 @@
 <template>
     <div class="panel card">
         <div class="card-header flex-between">
-            <div class="flex">
+            <div class="flex-row">
                 <BackBtn />
                 <h1>我的关卡</h1>
             </div>

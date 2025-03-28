@@ -91,10 +91,14 @@ export class InventoryItem extends EventEmitter {
         return Math.sqrt(dx * dx + dy * dy);
     }
     applyScript(key = "mainFunc") {
-        if (this.isLoading) return
-        const func = this.scriptFuncs[key]
-        if (typeof func == "function") {
-            func(this.toString(0, false).data)
+        try {
+            if (this.isLoading) return
+            const func = this.scriptFuncs[key]
+            if (typeof func == "function") {
+                func(this.toString(0, false).data)
+            }
+        } catch (error) {
+            
         }
     }
     async setScript(script) {
@@ -383,11 +387,9 @@ global.item["${this.id}"] = {};
         this.makeDirty();
     }
     addDepend(item, slotName) {
-        console.log("添加依赖", item.showText, "依赖", this.showText)
         this.shadowDepends.push({ id: item.id, slotName })
     }
     removeDepend(item, slotName) {
-        console.log("移除依赖", item.showText, "不依赖", this.showText)
         this.shadowDepends = this.shadowDepends.filter(({ id, slotName: targetSlotName }) => !(id == item.id && slotName == targetSlotName))
     }
 
@@ -418,7 +420,6 @@ global.item["${this.id}"] = {};
     }
     setInput(input, slotName, options = {}) {
         if (!(slotName in this.inputs)) {
-            console.log(`Invalid slot name: ${slotName}`)
             return
         }
 
@@ -561,13 +562,14 @@ export class GameLogic extends EventEmitter {
         let aiResult
         try {
             const item1Data = item1.toString()
-            const item2Data = item2.toString(lastId)
+            const item2Data = item2.toString()
             aiResult = await synthesizeItems(
                 JSON.stringify(item1Data),
                 JSON.stringify(item2Data),
                 this.gptContext
             )
         } catch (error) {
+            console.error('执行脚本失败:', error.message, error.stack);
             if (error instanceof SyntaxError) {
                 return { error: AI_GEN_ERROR };
             }
@@ -583,7 +585,7 @@ export class GameLogic extends EventEmitter {
         this.removeItemById(item_2)
 
         return {
-            items: aiResult?.create?.map(item => this.getItemById(idMapping[item.id])) ?? []
+            items: aiResult?.create?.map(item => this.getItemById(item.id)) ?? []
         }
         // return { item: await this.createFromJSON(aiResult, { 
         //     position_x: (item1.position_x + item2.position_x)/2,

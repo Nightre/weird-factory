@@ -327,10 +327,9 @@ export const buyItemEmit = (category: number, index: number) => {
     const dom = store.gameDom?.getBoundingClientRect()
     if (dom) {
         // 获取GameDom 中心点
-        const position = abs2gamePos({ x: dom.width / 2, y: dom.height / 2 })
+        const position = abs2gamePos({ x: dom.width * 0.7, y: dom.height * 0.5 })
         socket.emit("buy_item", { category, index, position })
     }
-
 }
 
 export const updateMouseEmit = (data: Position) => {
@@ -386,4 +385,8 @@ export const reset = () => {
     useGameStore().reset()
     socket.disconnect()
     //sequenceNumber = 0
+}
+
+export const sendMessageEmit = async (message: string) => {
+    socket.emit('send_message', { message })
 }

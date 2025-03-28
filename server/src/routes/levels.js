@@ -1,6 +1,6 @@
 import express from 'express';
 import { Level } from '../model.js';
-import { returnError } from '../uitls.js';
+import { returnError, returnSuccess } from '../uitls.js';
 import Ajv from 'ajv';
 import { gameConfigSchema } from '../game-data/game-config.js';
 
@@ -44,10 +44,7 @@ router.post('/create', requireAuth, async (req, res) => {
             description
         });
 
-        res.json({
-            success: true,
-            data: await level.serialize()
-        });
+        return returnSuccess(res, '关卡创建成功', await level.serialize());
     } catch (error) {
         return returnError(res, '必须为JSON格式' + error.message);
     }
@@ -74,12 +71,8 @@ router.post('/update/:id', requireAuth, async (req, res) => {
             return returnError(res, '关卡不存在');
         }
 
-        res.json({
-            success: true,
-            data: await level.serialize(res.locals.user)
-        });
+        return returnSuccess(res, '关卡更新成功', await level.serialize(res.locals.user));
     } catch (error) {
-        console.log(error);
         return returnError(res, '必须为JSON格式' + error.message);
     }
 });
@@ -100,14 +93,11 @@ router.get('/search', requireAuth, async (req, res) => {
 
     const total = await Level.countDocuments(query);
 
-    res.json({
-        success: true,
-        data: {
-            data: await Promise.all(levels.map(level => level.serialize(res.locals.user, false))),
-            total,
-            page: parseInt(page),
-            limit: parseInt(limit)
-        }
+    return returnSuccess(res, '获取关卡列表成功', {
+        data: await Promise.all(levels.map(level => level.serialize(res.locals.user, false))),
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit)
     });
 });
 
@@ -129,9 +119,13 @@ router.post('/:id/like', requireAuth, async (req, res) => {
 
     await level.save();
 
-    res.json({
-        success: true,
-        data: await level.serialize(res.locals.user),
+    return returnSuccess(res, '点赞操作成功', await level.serialize(res.locals.user));
+});
+
+router.get('/featured', requireAuth, async (req, res) => {
+    const levels = await Level.find({ isPublic: true, featured: true }).sort({ likes: -1 }).limit(4);
+    return returnSuccess(res, '获取精选关卡成功', {
+        data: await Promise.all(levels.map(level => level.serialize(res.locals.user, false)))
     });
 });
 
@@ -147,17 +141,13 @@ router.get('/my-levels', requireAuth, async (req, res) => {
 
     const total = await Level.countDocuments(query);
 
-    res.json({
-        success: true,
-        data: {
-            data: await Promise.all(levels.map(level => level.serialize(res.locals.user, false))),
-            total,
-            page: parseInt(page),
-            limit: parseInt(limit)
-        }
+    return returnSuccess(res, '获取我的关卡成功', {
+        data: await Promise.all(levels.map(level => level.serialize(res.locals.user, false))),
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit)
     });
 });
-
 
 // 删除关卡
 router.delete('/delete/:id', requireAuth, async (req, res) => {
@@ -173,10 +163,7 @@ router.delete('/delete/:id', requireAuth, async (req, res) => {
 
     await level.deleteOne();
 
-    res.json({
-        success: true,
-        message: '关卡已删除'
-    });
+    return returnSuccess(res, '关卡已删除');
 });
 
 // 获取单个关卡
@@ -186,10 +173,7 @@ router.get('/:id', requireAuth, async (req, res) => {
         return returnError(res, '关卡不存在');
     }
 
-    res.json({
-        success: true,
-        data: await level.serialize(res.locals.user)
-    });
+    return returnSuccess(res, '获取关卡成功', await level.serialize(res.locals.user));
 });
 
 export default router; 

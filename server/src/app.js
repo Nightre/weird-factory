@@ -62,11 +62,7 @@ export const authMiddleware = async (req, res, next) => {
 
 app.use(authMiddleware);
 
-app.get('/', function (req, res, next) {
-    res.send('Hello there, hacker friend! If you are here to test the security, keep going. Have fun :) -- From ******');
-});
-
-app.use('/', downloadRouter);
+app.use('/api/download', downloadRouter);
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/game', gameRouter);

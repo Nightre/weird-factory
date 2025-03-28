@@ -8,7 +8,7 @@ const router = Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-router.get('/public/main.apk', function (req, res, next) {
+router.get('/main.apk', function (req, res, next) {
     const filePath = path.join(__dirname, '../public', 'main.apk');
     try {
         res.download(filePath, 'main.apk');

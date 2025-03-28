@@ -11,10 +11,6 @@
                 {{ isCollapsed ? '>' : '<' }} </VaButton>
                     <GameContent /> -->
 
-            <div style="flex: 1;"></div>
-            <ZoomButton />
-            <GameRightInfo />
-
         </div>
 
         <VaModal v-model="store.isGameOver" ok-text="好的" cancel-text="关闭" size="small">
@@ -27,6 +23,7 @@
             </p>
         </VaModal>
     </div>
+    <ZoomButton />
 </template>
 
 <style scoped>

@@ -3,7 +3,7 @@ import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import loagoImage from '@/assets/favicon2.svg'
 import loagoImage2 from '@/assets/favicon.svg'
 import { useJoinRoom } from '@/utils/join-room';
@@ -47,8 +47,17 @@ const checkVersion = () => {
 const { confirm } = useModal()
 const isCheckingVersion = ref(true)
 const error = ref<null | string>(null)
-checkVersion()
 
+let interval: number | undefined
+onMounted(() => {
+  interval = setInterval(() => {
+    checkVersion()
+  }, 1000)
+  checkVersion()
+})
+onUnmounted(() => {
+  clearInterval(interval)
+})
 </script>
 
 <template>

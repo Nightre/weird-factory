@@ -90,10 +90,12 @@ const stateConfigs = reactive({
 
 const backToHome = () => {
     reset()
-    router.push('/')
+    router.push('/home')
 }
 
-useJoinRoom().loadFromQuery()
-addRemoteMid()
-create(store.gameCreateData)
+onMounted(() => {
+    useJoinRoom().loadFromQuery()
+    addRemoteMid()
+    create(store.gameCreateData)
+})
 </script>

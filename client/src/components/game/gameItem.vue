@@ -1,13 +1,14 @@
 <template>
     <div v-if="!item.output || child" class="game-item" :style="itemStyle" :class="itemClasses" :ref="onDomChange"
         @pointerenter="onMouseEnter" @pointerleave="onMouseLeave" @pointerdown.stop="onMouseDown($event)"
-        @click.stop="onClick">
+        @click.stop="onClick" @touchstart.stop="onClick">
         <p class="game-item__tooltip" v-if="item.reason">
             {{ item.reason }}
         </p>
         <VaInnerLoading :loading="item.isLoading" style="z-index: 1000;">
             <div class="game-item__header">
-                <span class="game-item__title">{{ item.showText }} {{ item.emoji }}</span>
+                
+                <span class="game-item__title"> {{ item.emoji }} {{ item.showText }} <span v-if="item.hasScript" style="opacity: 0.5;font-size: 0.7rem;">🧠</span></span>
                 <div style="margin-left: 1.5rem;"></div>
                 <VaButton preset="secondary" size="small" :icon="item.fold ? 'expand_more' : 'expand_less'"
                     v-if="showFoldBtn && !props.shadow" @click.stop="onFoldClick" textColor="#000000"
@@ -139,17 +140,12 @@ const itemStyle = computed(() => {
 
 const itemClasses = computed(() => ({
     'active': item.value.id === store.canConnectItem && store.canConnectItemSlot === null && !store.isPinching,
-    'machine': Object.values(item.value.actions).length > 0,
-    'submit': item.value.type === ITEM_TYPE.SUBMIT,
-    'tool': item.value.type === ITEM_TYPE.TOOL,
     'child': props.child,
     'loading': item.value.isLoading,
-    'dragging': item.value.isDragging && !props.shadow && !store.isPinching,
+    'dragging': item.value.isDragging && !props.shadow && !store.isPinching && store.isDraggingStartMove,
     'others-locked': item.value.isLocked && !isOwner.value,
-    'dark': (props.layer || 0) % 2 != 0,
     'has-target-slot': store.hasTargetSlot,
     'shadow': props.shadow,
-    'has-script': item.value.hasScript,
     'current': store.currentItem?.id === item.value.id && !props.shadow && !store.isPinching
 }));
 
@@ -223,12 +219,12 @@ const clearShadow = (inputSlotName: string) => {
     position: absolute;
     cursor: default;
     user-select: none;
-    background-color: #f8fff8;
-    padding: 0.7rem;
-    border-radius: 0.5rem;
-    border: 1px solid #e0e0e0;
     pointer-events: all;
     touch-action: none;
+
+
+    border-image: url('./assets/item-bg.svg') 19 14 14 15 fill / 19px 14px 14px 15px;
+    padding: 19px 14px 14px 15px;
 }
 
 /* 创建和删除动画 */
@@ -241,7 +237,7 @@ const clearShadow = (inputSlotName: string) => {
 }
 
 .current {
-    outline: 2px solid #000000;
+    border-image: url('./assets/item-bg-active.svg') 19 14 14 15 fill / 19px 14px 14px 15px;
 }
 
 @keyframes game-item-in {
@@ -269,16 +265,7 @@ const clearShadow = (inputSlotName: string) => {
 }
 
 .shadow {
-    background-color: hsl(67, 100%, 92%) !important;
-}
-
-.dark {
-    background-color: #f3f3f3;
-}
-
-.cant-drag {
-    border-bottom: 3px solid #bb4848;
-    background-color: #fcdfdf;
+    opacity: 0.5;
 }
 
 .game-item__tooltip {
@@ -329,28 +316,19 @@ const clearShadow = (inputSlotName: string) => {
     white-space: nowrap;
 }
 
-.tool {
-    background-color: #ffffff;
-}
-
-.machine {
-    background-color: #f8fff8;
-}
-
-.submit {
-    background-color: #bee3f8;
-}
-
 .child {
     position: relative;
     width: 100%;
     padding: 0.5rem;
     margin: 0;
-    border: none;
+    border: none !important;
+    padding: 0.5rem !important;
+    background-color: #f8fff8;
+    border-radius: 0.5rem;
 }
 
 .active {
-    box-shadow: 0 0 2px 8px rgba(251, 255, 0, 0.479);
+    outline: 3px solid rgba(102, 102, 102, 0.8);
 }
 
 .game-item__slots {
@@ -416,11 +394,12 @@ const clearShadow = (inputSlotName: string) => {
 }
 
 .others-locked {
-    border-left: 3px solid #bb4848;
+    border-image: url('./assets/item-bg-ban.svg') 19 14 14 15 fill / 19px 14px 14px 15px;
+    padding: 19px 14px 14px 15px;
 }
 
 .dragging {
-    box-shadow: 0 10px 10px 1px rgba(154, 154, 154, 0.5);
+    filter: drop-shadow(0px 4px 4px #bbbbbb);
 }
 
 .can-sale {
@@ -436,22 +415,17 @@ const clearShadow = (inputSlotName: string) => {
     cursor: pointer;
 }
 
-.has-script {
-    background-color: #ffffff;
-}
-
 .select-btn {
-    background-color: #ffffff;
     padding: 0.3rem;
     border: none;
 }
 
 .select-btn:hover {
-    background-color: #f4f4f4;
+    background-color: #89b8ee;
 }
 
 .select-btn:disabled {
-    background-color: #e6e6e6;
+    background-color: #d3d3d3;
+    opacity: 0.5;
 }
-
 </style>

@@ -57,6 +57,7 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
         if (isPinching.value) {
             return;
         }
+        store.isDraggingStartMove = false
         startDragEmit(item.id);
         store.orderTop(item.id);
         const gameDom = store.gameDom;
@@ -73,6 +74,7 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
 
         initialX = (event.clientX - ix) / scale.value;
         initialY = (event.clientY - iy) / scale.value;
+        onDrag(event,false)
     };
 
     const startBackgroundDrag = (event: PointerEvent) => {
@@ -92,7 +94,7 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
         }
     };
 
-    const onDrag = (event: PointerEvent) => {
+    const onDrag = (event: PointerEvent, isStartMove: boolean = true) => {
         if (!isDragging && !isBackgroundDragging) return;
         if (isPinching.value) {
             return;
@@ -101,7 +103,6 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
         let newY = 0;
 
         if (isDragging && currentItem) {
-            currentItem.isDragging = true;
             newX = event.clientX / scale.value - initialX;
             newY = event.clientY / scale.value - initialY;
 
@@ -109,6 +110,9 @@ export function useDraggable(cb: (item: IItem, x: number, y: number) => void, on
             currentItem.y = Math.round(newY);
 
             cb(currentItem, currentItem.x, currentItem.y);
+            if (isStartMove) {
+                store.isDraggingStartMove = true
+            }
         } else if (isBackgroundDragging) {
             newX = event.clientX - initialX;
             newY = event.clientY - initialY;

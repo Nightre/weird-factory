@@ -345,6 +345,10 @@ export const useGameStore = defineStore('game', () => {
     }
     const setTargetSlotValue = (id: string) => {
         if (targetSlotItem.value && targetSlot.value) {
+            const item = getItem(id)
+            if (targetSlotItem.value.root == item.root) {
+                return
+            }
             setOutputAndEmit(id, targetSlotItem.value.id, targetSlot.value, { isShadow: true })
         }
     }
@@ -489,7 +493,7 @@ export const useGameStore = defineStore('game', () => {
         backgroundPosition.y = reat.height / 2
         scale.value = 1
     }
-
+    const isDraggingStartMove = ref(false)
     return {
         roomId,
         state,
@@ -516,6 +520,7 @@ export const useGameStore = defineStore('game', () => {
         currentItem,
         currentItemInfo,
         isPinching,
+        isDraggingStartMove,
 
         //////////
         resetBackgroundPos,

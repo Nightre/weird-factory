@@ -10,14 +10,16 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import { axios } from "../utils/axios"
 
 const container = ref<HTMLDivElement | null>(null)
 const isLoading = ref(true)
-axios.get("/help").then(res => {
-    container.value!.innerHTML = res.data.data
-    isLoading.value = false
+onMounted(() => {
+    axios.get("/help").then(res => {
+        container.value!.innerHTML = res.data.data
+        isLoading.value = false
+    })
 })
 
 </script>

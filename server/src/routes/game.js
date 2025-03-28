@@ -531,6 +531,9 @@ class GameRoom extends Room {
     async getClassInfo(data) {
         return await this.game.getClassInfo(data.classId)
     }
+    async sendMessage(data, user) {
+        this.state.msg.push(`<${user.name}> ${data.message}`)
+    }
 }
 
 /**
@@ -661,6 +664,7 @@ const gameLogic = async (socket) => {
     socket.on('set_action', (data) => socket.mainRoom?.setAction(data));
     socket.on('set_lock', (data) => socket.mainRoom?.setLock(data));
     socket.on('get_class_info', async (data, cb) => cb(await socket.mainRoom?.getClassInfo(data)));
+    socket.on('send_message', (data) => socket.mainRoom?.sendMessage(data, user));
 };
 
 export default router;

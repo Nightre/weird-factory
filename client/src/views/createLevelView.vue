@@ -18,11 +18,11 @@
                 <JsonEditorVue v-model="formData.content" />
             </VaForm>
         </div>
-        <div class="flex card-footer">
-            <VaButton :loading="isLoading" :disabled="isLoading" @click="validate() && submit()">
+        <div class="flex-row card-footer">
+            <VaButton :loading="isLoading" :disabled="isLoading" @click="validate() && submit()" style="flex: 3;">
                 {{ edit ? '保存' : '创建' }}
             </VaButton>
-            <VaButton color="secondary" @click="testGame()" v-if="edit">游戏内测试</VaButton>
+            <VaButton color="secondary" @click="testGame()" v-if="edit" style="flex: 1;">游戏内测试</VaButton>
         </div>
     </div>
 
@@ -51,7 +51,7 @@ import requiredValidate from '@/utils/required-validate';
 import JsonEditorVue from 'json-editor-vue'
 import initJSON from '@/assets/init.json'
 import BackBtn from '@/components/backBtn.vue';
-import { watch } from 'vue';
+import { watch, onMounted } from 'vue';
 import { useJoinRoom } from '@/utils/join-room';
 
 const router = useRouter();
@@ -66,18 +66,20 @@ const formData = reactive({
     title: '',
     content: initJSON,
     isPublic: false,
-    description:''
+    description: ''
 });
 
-if (props.edit) {
-    watch(() => props.levelId, async () => {
-        const level = await axios.get(`/levels/${props.levelId}`);
-        formData.title = level.data.data.title;
-        formData.content = level.data.data.content;
-        formData.isPublic = level.data.data.isPublic;
-        formData.description = level.data.data.description;
-    }, { immediate: true })
-}
+onMounted(() => {
+    if (props.edit) {
+        watch(() => props.levelId, async () => {
+            const level = await axios.get(`/levels/${props.levelId}`);
+            formData.title = level.data.data.title;
+            formData.content = level.data.data.content;
+            formData.isPublic = level.data.data.isPublic;
+            formData.description = level.data.data.description;
+        }, { immediate: true })
+    }
+})
 
 const submit = async (redirect: boolean = true) => {
     isLoading.value = true;

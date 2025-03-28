@@ -18,7 +18,6 @@ import LevelCard from '@/components/levelCard.vue';
 const router = useRouter()
 
 const store = useUserStore()
-const { isLogin } = storeToRefs(store)
 const { logout } = store
 
 const onLogoutClick = () => {
@@ -59,7 +58,7 @@ onMounted(() => {
     discoverNum.value = res.data.data.num
     selfDiscoverNum.value = res.data.data.self_num
   })
-  axios.get('/levels/search', {
+  axios.get('/levels/featured', {
     params: {
       limit: 4
     }
@@ -115,17 +114,11 @@ onMounted(() => {
     <div class="card">
       <div class="card-header flex-between">
         <h1>
-          <VaIcon name="person" /> 用户
+          <VaIcon name="person" /> {{ (store.userInfo as UserInfo).name }}
         </h1>
         <VaButton color="secondary" size="small" @click="onLogoutClick" preset="secondary">
           登出
         </VaButton>
-      </div>
-      <div class="card-body">
-        <p style="font-size: 1.8rem;">
-          {{ (store.userInfo as UserInfo).name }}
-          <span style="color: #888;font-size: 1rem;">共发现了 {{ selfDiscoverNum }} 个物品</span>
-        </p>
       </div>
     </div>
     <div class="card">
@@ -160,8 +153,8 @@ onMounted(() => {
   top: 50%;
   transform: translate(-50%, -50%);
 
-  width: calc(100vw - 6rem);
-  height: calc(100vh - 3rem);
+  width: calc(100vw - 2rem);
+  height: calc(100vh - 2rem);
 }
 
 @media (min-height: 500px) {
